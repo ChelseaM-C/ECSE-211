@@ -13,9 +13,12 @@ public class MapTester {
 		,{false,true,false,false,false,false,false,true},{false,false,false,false,true,false,true,true},{true,false,false,false,false,false,false,false},{false,false,false,false,false,false,false,false},
 		{true,true,false,false,false,false,true,true}};
 		
+		boolean[][] walls3 = {{false,false,false,false,false,false,false,true},{false,false,false,false,false,false,false,false},{false,false,false,true,false,false,true,false}
+		,{false,false,true,true,true,false,true,false},{true,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false},{false,false,false,false,true,false,false,false},
+		{true,false,false,false,true,false,true,false}};
 		Map map = new Map(8,1);
 		
-		map.addWalls(walls);
+		map.addWalls(walls3);
 		
 		map.populate();
 		if(map.getWalls() != null){
@@ -69,7 +72,7 @@ public class MapTester {
 		}
 		System.out.println(jerry.getPath().toString());
 		
-		Ghost robot = new Ghost(7,5,"S",map);
+		Ghost robot = new Ghost(5,2,"N",map);
 		//robot.turn()
 		
 		Localizer loc = new Localizer(map,robot);

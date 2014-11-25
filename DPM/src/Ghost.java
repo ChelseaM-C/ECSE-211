@@ -32,10 +32,10 @@ public class Ghost {
 				return 1;
 			}
 			else if(map.getSquare(x, y+2) == null){
-				return 1;
+				return 2;
 			}
 			else if(map.getSquare(x,y+2).isWall()){
-				return 1;
+				return 2;
 			}
 		}
 		if(orientation.equals("S")){
@@ -139,5 +139,4 @@ public class Ghost {
 			orientation = "S";
 		}
 	}
-	
 }

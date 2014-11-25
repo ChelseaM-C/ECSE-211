@@ -85,7 +85,7 @@ public class Localizer extends Thread{
 	public void run(){
 		while(numValid() > 1){
 			System.out.println(robot.getX() + " , " + robot.getY() + " , " + robot.getOrientation() + " , " + robot.wallinFront());
-			//System.out.println(numValid());
+			System.out.println(numValid());
 			if(robot.wallinFront() == 1){
 				wall();
 				robot.turnLeft();
