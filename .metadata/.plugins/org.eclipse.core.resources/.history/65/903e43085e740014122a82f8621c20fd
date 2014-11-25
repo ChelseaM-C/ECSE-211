@@ -2,11 +2,7 @@ import java.util.ArrayList;
 
 import lejos.nxt.Sound;
 
-/**Will move the robot about the map, analyzing movements and wall locations, will stop once the position of the robot has been determined
- * 
- * @author Daniel
- *
- */
+
 public class Localizer{
 	
 	boolean running;

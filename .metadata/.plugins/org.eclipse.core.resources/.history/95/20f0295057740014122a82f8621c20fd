@@ -1,8 +1,4 @@
-/**"Ghost" simulates a moving robot in a map
- * 
- * @author Daniel
- *
- */
+
 public class Ghost {
 	private int x,y;
 	private boolean valid;
@@ -11,13 +7,6 @@ public class Ghost {
 	
 	private Map map;
 	
-	/**Creates a new ghost on given map
-	 * 
-	 * @param x ghost initial x
-	 * @param y ghost initial y
-	 * @param o ghost initial o
-	 * @param m map the ghost is on
-	 */
 	public Ghost(int x, int y, String o, Map m){
 		this.x = x;
 		this.y = y;
@@ -26,26 +15,14 @@ public class Ghost {
 		this.valid = true;
 	}
 	
-	
-	/**
-	 * Makes the ghost not valid
-	 */
 	public void invalid(){
 		valid = false;
 	}
 	
-	/**Retrun whether or not ghost is valid
-	 * 
-	 * @return validity of ghost
-	 */
 	public boolean isValid(){
 		return valid;
 	}
 	
-	/**Returns the distance to any wall in front (0 mean no wall within range)
-	 * 
-	 * @return number of spaces untill wall
-	 */
 	public int wallinFront(){
 		if(orientation.equals("N")){
 			if(map.getSquare(x, y+1) == null){
@@ -106,31 +83,18 @@ public class Ghost {
 		return 0;
 	}
 	
-	/**
-	 * 
-	 * @return ghost's x
-	 */
+	
 	public int getX(){
 		return x;
 	}
-	/**
-	 * 
-	 * @return ghost's y
-	 */
 	public int getY(){
 		return y;
 	}
 	
-	/**
-	 * 
-	 * @return ghosts's orientation (N,S,W,E)
-	 */
 	public String getOrientation(){
 		return orientation;
 	}
-	/**
-	 * Moves the ghost one tile forward
-	 */
+	
 	public void move(){
 		if(orientation.equals("N")){
 			y++;
@@ -145,9 +109,7 @@ public class Ghost {
 			x--;
 		}
 	}
-	/**
-	 * Turns the ghost 90 degrees clockwise
-	 */
+	
 	public void turn(){
 		if(orientation.equals("N")){
 			orientation = "E";
@@ -162,9 +124,7 @@ public class Ghost {
 			orientation = "N";
 		}
 	}
-	/**
-	 * turns the ghost 90 degrees counterClockwise
-	 */
+	
 	public void turnLeft(){
 		if(orientation.equals("N")){
 			orientation = "W";

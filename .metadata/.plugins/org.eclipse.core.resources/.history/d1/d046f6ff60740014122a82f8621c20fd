@@ -11,19 +11,13 @@ public class Path {
 	
 	private boolean valid;
 	
-	/**
-	 * Initializes a new Path
-	 */
 	public Path(){
 		squares = new ArrayList<GridSquare>();
 		valid = false;
 	}
 	
 		
-	/**
-	 * Sets the squares contained by the path
-	 * @param s ArrayList of ordered GridSquares
-	 */
+	
 	public void setSquares(ArrayList<GridSquare> s){
 		for(GridSquare sq : s){
 			GridSquare n = new GridSquare(sq.getMap(),sq.getX(),sq.getY(),sq.isWall());
@@ -34,35 +28,21 @@ public class Path {
 		}
 	}
 	
-	/**
-	 * Adds a square to the end of the path
-	 * @param s the GridSquare to be appended
-	 */
 	public void addSquare(GridSquare s){
 		s.visit();
 		squares.add(s);
 	}
 	
-	/**
-	 * Clones the path
-	 * @return a new and equal path
-	 */
 	public Path clone(){
 		Path p = new Path();
 		p.setSquares(this.squares);
 		return p;
 	}
-	/**
-	 * 
-	 * @return the Path(Squares)
-	 */
+	
 	public ArrayList<GridSquare> getSquares(){
 		return squares;
 	}
-	/**
-	 * 
-	 * @return the Path(WayPoints)
-	 */
+	
 	public ArrayList<Waypoint> getPoints(){
 		points = new ArrayList<Waypoint>();
 		for(int i = 0; i < squares.size(); i++){
@@ -76,30 +56,18 @@ public class Path {
 		return p;
 	}
 	
-	/**
-	 * sets path to valid (Pathfinder)
-	 */
 	public void valid(){
 		valid = true;
 	}
-	/**
-	 * 
-	 * @return validity of path
-	 */
+	
 	public boolean isValid(){
 		return valid;
 	}
-	/**Returns the square at the end of the Path
-	 * 
-	 * @return the end of the Path
-	 */
+	
 	public GridSquare getEnd(){
 		return squares.get(squares.size() - 1);
 	}
 	
-	/**
-	 * Debugging the pathfinder, will print the gridSquare coords in order
-	 */
 	public String toString(){
 		String p = "";
 		for(int i = 0; i < squares.size(); i++){

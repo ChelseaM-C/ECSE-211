@@ -1,22 +1,11 @@
 import java.util.ArrayList;
 
-/**Represents one tile on the map
- * 
- * @author Daniel
- *
- */
+
 public class GridSquare {
 	private boolean isWall,visited;
 	private int x,y;
 	private Map map;
 	
-	/**
-	 * 
-	 * @param map map the square is part of
-	 * @param x x coord
-	 * @param y y coord
-	 * @param wall true if the tile is occupied by a wall
-	 */
 	public GridSquare(Map map,int x, int y, boolean wall){
 		this.x = x;
 		this.y = y;
@@ -40,49 +29,26 @@ public class GridSquare {
 		return visited;
 	}
 	
-	/**
-	 * 
-	 * @return x position
-	 */
 	public int getX(){
 		return x;
 	}
-	/**
-	 * 
-	 * @return y position
-	 */
+	
 	public int getY(){
 		return y;
 	}
 	
-	/**
-	 * 
-	 * @return whether gridSquare contains a wall
-	 */
 	public boolean isWall(){
 		return isWall;
 	}
 	
-	/**
-	 * 
-	 * @return x position (cm)
-	 */
 	public int getXCoord(){
 		return (x+1)*15;
 	}
 	
-	/**
-	 * 
-	 * @return y position (cm)
-	 */
 	public int getYCoord(){
 		return (y+1)*15;
 	}
 	
-	/**Fetches a list of all the surrounding gridSquares if they are not walls
-	 * 
-	 * @return movable gridSquares
-	 */
 	public ArrayList<GridSquare> getSquares(){
 		ArrayList<GridSquare> adj = new ArrayList<GridSquare>();
 		if(map.getSquare(x+1, y) != null){	
@@ -107,11 +73,7 @@ public class GridSquare {
 		}
 		return adj;
 	}
-	
-	/**
-	 * 
-	 * @return the map the gridSquare is on
-	 */
+
 	public Map getMap() {
 		return map;
 	}

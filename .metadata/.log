@@ -1355,3 +1355,51 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.102
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal' ('@serialData'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.108
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.javadoc.JavadocInlineTagCompletionProposal' ('{@linkplain}'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.109
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal' ('@since'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.109
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.javadoc.JavadocInlineTagCompletionProposal' ('{@docRoot}'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.110
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal' ('@param'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.111
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal' ('@throws'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.112
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.javadoc.JavadocInlineTagCompletionProposal' ('{@value}'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.112
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.javadoc.JavadocInlineTagCompletionProposal' ('{@code}'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.113
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal' ('@see'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.113
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.javadoc.JavadocInlineTagCompletionProposal' ('{@inheritDoc}'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.114
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal' ('@deprecated'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.114
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.javadoc.JavadocInlineTagCompletionProposal' ('{@literal}'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.115
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal' ('@return'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.115
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal' ('@category'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.116
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal' ('@exception'). Returning original proposal instead.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2014-11-25 00:05:47.117
+!MESSAGE Unknown JDT proposal type 'class org.eclipse.jdt.internal.ui.text.javadoc.JavadocInlineTagCompletionProposal' ('{@link}'). Returning original proposal instead.

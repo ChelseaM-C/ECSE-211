@@ -26,8 +26,8 @@ public class Correction extends Thread{
         /**
          * Constructor
          * @param odometer
-         * @param right Sensor
-         * @param left Sensor
+         * @param Rigth Sensor
+         * @param Left Sensor
          */
         public Correction(Odometer odo, LightSensorController right, LightSensorController left) {
                 this.odo = odo;
