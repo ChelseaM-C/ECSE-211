@@ -14,9 +14,6 @@ public class blockPickUp extends Thread {
         private UltrasonicSensor sensor;
         private NXTRegulatedMotor leftMotor,rightMotor;
        
-//        private static UltrasonicPoller poller;
-//        private  UltrasonicController usController;
-       
         //initiating objects
         WheelDriver wheels = new WheelDriver( leftMotor, rightMotor) ;
         Odometer odo = new Odometer();
@@ -31,38 +28,66 @@ public class blockPickUp extends Thread {
  
         public void scanRange() {
                
-                int threshold = 25;            
-//                  while (getFilteredData() > threshold) {
-//                          //rotate between range of -45 and 45 degrees
-//                          Sound.buzz();      
-//                              LCD.clear();
-//                      LCD.drawString("Dis:" + us.getDistance(), 0 , 0);
-//                      travelForward(forwardDistance);
-//                  }
+                int threshold = 22;            
                 boolean travel = true;
                 double turnAngle = -20;
-                while (travel){
-                        rotateCCW(60);
+                int storeI = 0;
+                int storeW = 0;
+                int loopBreak = 0;
+               
+                while (travel){                
                         if (us.getDistance() < threshold) {
                                 travelForward(forwardThreshold);
                                 claw.close();
                                 break;
                         }
+                        rotateCCW(60);
                        
-                        for (int i = 0 ; i < 7 ; i++){
+                        for (int i = 0 ; i < 6 ; i++){
                                 rotateCCW(turnAngle);
                                 if (us.getDistance() < threshold){
                                         travelForward(forwardThreshold);
                                         claw.close();
+                                        loopBreak = 1;
+                                        storeI = i;
                                         break;
                                 }
+                               
                         }
-                       
-                        rotateCCW(60);
-                        travelForward(forwardDistance);                                      
+                        if (loopBreak != 1){
+                                rotateCCW(60);
+                                travelForward(forwardDistance);
+                                storeW++;
+                               
+                                if (storeW >= 5){
+                                        rotateCCW(180);
+                                        travelForward(storeW*forwardDistance);
+                                        rotateCCW(-90);
+                                        travelForward(15);
+                                        rotateCCW(-90);
+                                        scanRange();
+                                }
+                        }
+                        else {
+                                break;
+                        }
                 }
+               
+                Sound.beep();
+                rotateCCW(-180);
+                travelForward(forwardThreshold);
+               
+                if (storeI <= 2) {
+                        rotateCCW(storeI*turnAngle);
+                }
+                if (storeI >= 4){
+                        rotateCCW(-storeI*turnAngle);
+                }
+               
+                travelForward(storeW*forwardDistance);
+               
         }
-       
+               
         public void travelForward(double forwardDistance){
                 leftMotor.setSpeed(FORWARD_SPEED);
                 rightMotor.setSpeed(FORWARD_SPEED);
