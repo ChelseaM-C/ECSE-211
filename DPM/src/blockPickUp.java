@@ -6,7 +6,7 @@ public class blockPickUp extends Thread {
         public static final int ROTATE_SPEED = 150;
         public static final int FORWARD_SPEED = 200;
         public static final double forwardDistance = 12.0;
-        public static final double forwardThreshold = 22.0;
+        public static final double forwardThreshold = 15.0;
         public final double leftRadius = 2.1;
         public final double rightRadius = 2.15;
         public final double width = 10.0;
@@ -28,12 +28,13 @@ public class blockPickUp extends Thread {
  
         public void scanRange() {
                
-                int threshold = 22;            
+                int threshold = 20;            
                 boolean travel = true;
-                double turnAngle = -20;
+                double turnAngle = -10;
                 int storeI = 0;
                 int storeW = 0;
                 int loopBreak = 0;
+                int secondLap = 0;
                
                 while (travel){                
                         if (us.getDistance() < threshold) {
@@ -43,7 +44,7 @@ public class blockPickUp extends Thread {
                         }
                         rotateCCW(60);
                        
-                        for (int i = 0 ; i < 6 ; i++){
+                        for (int i = 0 ; i < 9 ; i++){
                                 rotateCCW(turnAngle);
                                 if (us.getDistance() < threshold){
                                         travelForward(forwardThreshold);
@@ -52,10 +53,10 @@ public class blockPickUp extends Thread {
                                         storeI = i;
                                         break;
                                 }
-                               
                         }
+                       
                         if (loopBreak != 1){
-                                rotateCCW(60);
+                                rotateCCW(30);
                                 travelForward(forwardDistance);
                                 storeW++;
                                
@@ -63,8 +64,11 @@ public class blockPickUp extends Thread {
                                         rotateCCW(180);
                                         travelForward(storeW*forwardDistance);
                                         rotateCCW(-90);
-                                        travelForward(15);
+                                        travelForward(30);
                                         rotateCCW(-90);
+                                        storeI = 0;
+                                        storeW = 0;
+                                        secondLap++;
                                         scanRange();
                                 }
                         }
@@ -72,19 +76,26 @@ public class blockPickUp extends Thread {
                                 break;
                         }
                 }
-               
+                   
                 Sound.beep();
                 rotateCCW(-180);
                 travelForward(forwardThreshold);
                
-                if (storeI <= 2) {
+                if (storeI <= 5) {
+                        Sound.buzz();
                         rotateCCW(storeI*turnAngle);
                 }
-                if (storeI >= 4){
+                if (storeI >= 7){
                         rotateCCW(-storeI*turnAngle);
                 }
                
                 travelForward(storeW*forwardDistance);
+               
+                if (secondLap > 0){
+                        rotateCCW(90);
+                        travelForward(30);
+                        rotateCCW(-90);
+                }
                
         }
                
