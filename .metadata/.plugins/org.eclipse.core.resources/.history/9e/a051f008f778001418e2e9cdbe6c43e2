@@ -95,7 +95,6 @@ public class Simon {
 
 			buttonChoice = Button.waitForAnyPress();
 			if(buttonChoice == Button.ID_ENTER){
-				display.setDisplay("NONE");
 				break;
 			}
 			else if(buttonChoice == Button.ID_RIGHT){
@@ -113,6 +112,12 @@ public class Simon {
 		}
 
 		if (buttonChoice == Button.ID_ENTER) {
+			try {
+				display.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			LCD.clear();
 			LCD.drawInt(mapID, 0, 0);
 			//claw.close();

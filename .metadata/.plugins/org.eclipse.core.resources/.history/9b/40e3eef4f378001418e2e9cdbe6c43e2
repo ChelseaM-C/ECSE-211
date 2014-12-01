@@ -70,22 +70,20 @@ public class Simon {
 		//Initialize map, localization, and navigation.
 		Navigation nav = new Navigation(0,0,odometer, wheels);
 		
-
-		int mapID = 1;
+		Map map = new Map(8,1);
+		
 		
 		//Start all the threads
 		rightPoll.start();
 		leftPoll.start();
 //		odometer.start();
 //		nav.start();
-		display.setDisplay(String.valueOf(mapID));
-		display.start();
-		while(true) {
-			
+
+		do {
 			// clear the display
 			LCD.clear();
-			
-			
+			display.setDisplay("1");
+			display.start();
 //			// ask the user whether the motors should drive in a square or float
 //			LCD.drawString("< Left | Right >", 0, 0);
 //			LCD.drawString("       |        ", 0, 1);
@@ -94,27 +92,18 @@ public class Simon {
 //			LCD.drawString("       |        ", 0, 4);
 
 			buttonChoice = Button.waitForAnyPress();
-			if(buttonChoice == Button.ID_ENTER){
-				display.setDisplay("NONE");
-				break;
-			}
-			else if(buttonChoice == Button.ID_RIGHT){
+		} while (buttonChoice != Button.ID_LEFT
+				&& buttonChoice != Button.ID_RIGHT && buttonChoice != Button.ID_ENTER);
+		
+		//MAP 1
+		if (buttonChoice == Button.ID_LEFT) {
+			do{
 				LCD.clear();
-				mapID++;
+				display.setDisplay("2");
 				buttonChoice = Button.waitForAnyPress();
-				display.setDisplay(String.valueOf(mapID));
-			}
-			else if(buttonChoice == Button.ID_RIGHT){
-				LCD.clear();
-				mapID--;
-				buttonChoice = Button.waitForAnyPress();
-				display.setDisplay(String.valueOf(mapID));
-			}
-		}
+			}while (buttonChoice != Button.ID_LEFT
+					&& buttonChoice != Button.ID_RIGHT && buttonChoice != Button.ID_ENTER);
 
-		if (buttonChoice == Button.ID_ENTER) {
-			LCD.clear();
-			LCD.drawInt(mapID, 0, 0);
 			//claw.close();
 			//claw.open();
 			
@@ -132,24 +121,13 @@ public class Simon {
 			//nav.travelPath(testPath);
 
 		} 
-		else if(buttonChoice == Button.ID_RIGHT) {
-			//display.start();
-			//nav.travelTo(new Waypoint(30,0));
-			//nav.turnTo(Math.PI/2);
-			//nav.travelTo(new Waypoint(30,30));
-			//nav.travelTo(new Waypoint(0,30));
-			//nav.travelTo(new Waypoint(0,0));
-			//nav.turnTo(Math.PI);
-			//nav.travelTo(30, 30);
-			//nav.travelTo(0, 30);
-			//nav.waypoints.push(new Waypoint(10,0));
-			
-		}
+		
+		//Start Map 1
 		else{
+			
 			blockPickUp bp = new blockPickUp(claw,leftMotor,rightMotor);
 			odometer.start();
-			Map map = new Map(8,1);
-			map.addWalls(walls3);
+			map.addWalls(walls1);
 			map.populate();
 			display.setDisplay("ODOMETER");
 			//display.start();

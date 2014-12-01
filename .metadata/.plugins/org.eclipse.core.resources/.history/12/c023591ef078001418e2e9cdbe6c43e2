@@ -6,7 +6,6 @@ import lejos.nxt.LCD;
 public class LCDDisplay extends Thread {
 	private static final long DISPLAY_PERIOD = 250;
 	private Odometer odometer;
-	private String display;
 
 	// constructor
 	/**
@@ -15,11 +14,8 @@ public class LCDDisplay extends Thread {
 	 */
 	public LCDDisplay(Odometer odometer) {
 		this.odometer = odometer;
-		display = "ODOMETER";
 	}
-	public void setDisplay(String d){
-		display = d;
-	}
+
 	// run method (required for Thread)
 	public void run() {
 		long displayStart, displayEnd;
@@ -30,42 +26,20 @@ public class LCDDisplay extends Thread {
 
 		while (true) {
 			displayStart = System.currentTimeMillis();
-			if(display.equals("ODOMETER")){
-				// clear the lines for displaying odometry information
-				LCD.drawString("X:              ", 0, 0);
-				LCD.drawString("Y:              ", 0, 1);
-				LCD.drawString("T:              ", 0, 2);
 
-				// get the odometry information
-				odometer.getPosition(position, new boolean[] { true, true, true });
+			// clear the lines for displaying odometry information
+			LCD.drawString("X:              ", 0, 0);
+			LCD.drawString("Y:              ", 0, 1);
+			LCD.drawString("T:              ", 0, 2);
 
-				// display odometry information
-				for (int i = 0; i < 3; i++) {
-					LCD.drawString(formattedDoubleToString(position[i], 2), 3, i);
-				}
+			// get the odometry information
+			odometer.getPosition(position, new boolean[] { true, true, true });
 
+			// display odometry information
+			for (int i = 0; i < 3; i++) {
+				LCD.drawString(formattedDoubleToString(position[i], 2), 3, i);
 			}
-			else if(display.equals("TEST")){
-				LCD.drawString("TEST", 0, 0);
-			}
-			else if(display.equals("1")){
-				LCD.drawString("MAP 1", 0, 0);
-			}
-			else if(display.equals("2")){
-				LCD.drawString("MAP 2", 0, 0);
-			}
-			else if(display.equals("3")){
-				LCD.drawString("MAP 3", 0, 0);
-			}
-			else if(display.equals("4")){
-				LCD.drawString("MAP 4", 0, 0);
-			}
-			else if(display.equals("5")){
-				LCD.drawString("MAP 5", 0, 0);
-			}
-			else if(display.equals("6")){
-				LCD.drawString("MAP 6", 0, 0);
-			}
+
 			// throttle the OdometryDisplay
 			displayEnd = System.currentTimeMillis();
 			if (displayEnd - displayStart < DISPLAY_PERIOD) {

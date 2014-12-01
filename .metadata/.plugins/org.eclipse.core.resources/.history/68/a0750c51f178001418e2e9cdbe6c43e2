@@ -17,9 +17,7 @@ public class LCDDisplay extends Thread {
 		this.odometer = odometer;
 		display = "ODOMETER";
 	}
-	public void setDisplay(String d){
-		display = d;
-	}
+
 	// run method (required for Thread)
 	public void run() {
 		long displayStart, displayEnd;
@@ -47,24 +45,6 @@ public class LCDDisplay extends Thread {
 			}
 			else if(display.equals("TEST")){
 				LCD.drawString("TEST", 0, 0);
-			}
-			else if(display.equals("1")){
-				LCD.drawString("MAP 1", 0, 0);
-			}
-			else if(display.equals("2")){
-				LCD.drawString("MAP 2", 0, 0);
-			}
-			else if(display.equals("3")){
-				LCD.drawString("MAP 3", 0, 0);
-			}
-			else if(display.equals("4")){
-				LCD.drawString("MAP 4", 0, 0);
-			}
-			else if(display.equals("5")){
-				LCD.drawString("MAP 5", 0, 0);
-			}
-			else if(display.equals("6")){
-				LCD.drawString("MAP 6", 0, 0);
 			}
 			// throttle the OdometryDisplay
 			displayEnd = System.currentTimeMillis();

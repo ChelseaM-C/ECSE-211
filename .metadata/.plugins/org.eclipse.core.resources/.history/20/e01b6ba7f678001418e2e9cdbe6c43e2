@@ -95,26 +95,16 @@ public class Simon {
 
 			buttonChoice = Button.waitForAnyPress();
 			if(buttonChoice == Button.ID_ENTER){
-				display.setDisplay("NONE");
 				break;
 			}
 			else if(buttonChoice == Button.ID_RIGHT){
-				LCD.clear();
 				mapID++;
-				buttonChoice = Button.waitForAnyPress();
-				display.setDisplay(String.valueOf(mapID));
-			}
-			else if(buttonChoice == Button.ID_RIGHT){
-				LCD.clear();
-				mapID--;
 				buttonChoice = Button.waitForAnyPress();
 				display.setDisplay(String.valueOf(mapID));
 			}
 		}
 
-		if (buttonChoice == Button.ID_ENTER) {
-			LCD.clear();
-			LCD.drawInt(mapID, 0, 0);
+		if (buttonChoice == Button.ID_LEFT) {
 			//claw.close();
 			//claw.open();
 			
