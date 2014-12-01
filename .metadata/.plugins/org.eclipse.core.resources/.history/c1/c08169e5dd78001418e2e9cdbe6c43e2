@@ -1,0 +1,27 @@
+
+public class PathTravel {
+	int x,y;
+	String orientation;
+	private Navigation navi;
+	public PathTravel(int x,int y, String o, Navigation n){
+		this.x = x;
+		this.y = y;
+		orientation = o;
+	}
+	
+	public void moveNorth(){
+		y++;
+		if(orientation.equals("N")){
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("S")){
+			
+		}
+		else if(orientation.equals("E")){
+			
+		}
+		else if(orientation.equals("W")){
+			
+		}
+	}
+}

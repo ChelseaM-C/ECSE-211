@@ -1,0 +1,96 @@
+
+public class PathTravel {
+	/*     N    
+	 *     |
+	 * W - - - E
+	 *     |
+	 *     S
+	 */
+	int x,y;
+	String orientation;
+	private Navigation navi;
+	private Path path;
+	public PathTravel(int x,int y, String o, Navigation n,Path p){
+		this.x = x;
+		this.y = y;
+		path = p;
+		orientation = o;
+	}
+	
+	public void moveNorth(){
+		y++;
+		if(orientation.equals("N")){
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("S")){
+			navi.turnCCW();
+			navi.turnCCW();
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("E")){
+			navi.turnCCW();
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("W")){
+			navi.turnCW();
+			navi.oneTileForward();
+		}
+	}
+	public void moveSouth(){
+		y--;
+		if(orientation.equals("S")){
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("N")){
+			navi.turnCCW();
+			navi.turnCCW();
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("W")){
+			navi.turnCCW();
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("E")){
+			navi.turnCW();
+			navi.oneTileForward();
+		}
+	}
+	public void moveEast(){
+		y++;
+		if(orientation.equals("E")){
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("W")){
+			navi.turnCCW();
+			navi.turnCCW();
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("S")){
+			navi.turnCCW();
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("N")){
+			navi.turnCW();
+			navi.oneTileForward();
+		}
+	}
+	public void moveWest(){
+		y++;
+		if(orientation.equals("W")){
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("E")){
+			navi.turnCCW();
+			navi.turnCCW();
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("N")){
+			navi.turnCCW();
+			navi.oneTileForward();
+		}
+		else if(orientation.equals("S")){
+			navi.turnCW();
+			navi.oneTileForward();
+		}
+	}
+}
