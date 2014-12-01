@@ -149,24 +149,7 @@ public class Simon {
 			blockPickUp bp = new blockPickUp(claw,leftMotor,rightMotor);
 			odometer.start();
 			Map map = new Map(8,1);
-			if(mapID == 1){
-				map.addWalls(walls1);
-			}
-			else if(mapID == 2){
-				map.addWalls(walls2);
-			}
-			else if(mapID == 3){
-				map.addWalls(walls3);
-			}
-			else if(mapID == 4){
-				map.addWalls(walls4);
-			}
-			else if(mapID == 5){
-				map.addWalls(walls5);
-			}
-			else if(mapID == 6){
-				map.addWalls(walls6);
-			}
+			map.addWalls(walls3);
 			map.populate();
 			display.setDisplay("ODOMETER");
 			//display.start();

@@ -17,10 +17,6 @@ public class LCDDisplay extends Thread {
 		this.odometer = odometer;
 		display = "ODOMETER";
 	}
-	/**Allows the display to show other screens
-	 * 
-	 * @param d the identity of the screen to be displayed (ODOMETER,1,2,3,4,5,6,NONE)
-	 */
 	public void setDisplay(String d){
 		display = d;
 	}

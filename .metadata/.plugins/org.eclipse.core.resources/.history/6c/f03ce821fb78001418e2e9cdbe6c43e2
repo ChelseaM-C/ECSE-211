@@ -167,6 +167,8 @@ public class Simon {
 			else if(mapID == 6){
 				map.addWalls(walls6);
 			}
+
+
 			map.populate();
 			display.setDisplay("ODOMETER");
 			//display.start();
