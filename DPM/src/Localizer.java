@@ -134,7 +134,7 @@ public class Localizer{
 				}
 				else{
 					turncount++;
-					nav.oneTileForward();
+					nav.testTile();
 					for(Ghost g : ghosts){
 						if(g.isValid()){
 							g.move();
@@ -155,7 +155,7 @@ public class Localizer{
 				}
 				else{
 					turncount++;
-					nav.oneTileForward();
+					nav.testTile();
 					for(Ghost g : ghosts){
 						if(g.isValid()){
 							g.move();

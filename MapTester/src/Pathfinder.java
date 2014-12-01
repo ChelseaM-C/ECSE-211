@@ -33,6 +33,7 @@ public class Pathfinder {
 	
 	//Recursivly BFS for path
 	public void genPath(){
+		int counter = 0;
 		ArrayList<Path> temp = new ArrayList<Path>();
 		boolean completed = false;
 		while(!completed){
@@ -40,6 +41,7 @@ public class Pathfinder {
 				for(GridSquare g : p.getEnd().getSquares()){
 					if(!g.isVisited()){
 						Path newPath = new Path();
+						counter++;
 						newPath = (Path) p.clone();
 						newPath.addSquare(g);
 						g.visit();
@@ -50,6 +52,9 @@ public class Pathfinder {
 					this.path = p;
 					completed = true;
 					
+				}
+				else if(p.getEnd().getSquares().size() == 0){
+					p = null;
 				}
 			}
 			paths.addAll(temp);

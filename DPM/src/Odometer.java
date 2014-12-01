@@ -15,6 +15,7 @@ import lejos.nxt.Motor;
 public class Odometer extends Thread {
 	// robot position
 	private double x, y, theta;
+	private boolean pauseTheta;
 
 	// odometer update period, in ms
 	private static final long ODOMETER_PERIOD = 25;
@@ -29,11 +30,16 @@ public class Odometer extends Thread {
 	/**Initializes an Odometer with starting position at [0,0], heading 0
 	 * 
 	 */
+	
+	public void pauseTheta(){
+		pauseTheta = !pauseTheta;
+	}
 	public Odometer() {
 		x = 0.0;
 		y = 0.0;
 		theta = 0.0;
 		lock = new Object();
+		pauseTheta = true;
 	}
 	
 	//theta correction(wraps around 2pi)
@@ -82,7 +88,9 @@ public class Odometer extends Thread {
 				//calculations based on tutorial slides
 				x = x + deltaArcLength * Math.sin(theta + (deltaTheta / 2));
 				y = y + deltaArcLength * Math.cos(theta + (deltaTheta / 2));
+
 				theta = thetaCorrection(theta + deltaTheta);
+				
 			}
 
 			// this ensures that the odometer only runs once every period

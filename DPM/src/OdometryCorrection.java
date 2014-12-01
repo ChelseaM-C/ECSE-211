@@ -15,12 +15,16 @@ public class OdometryCorrection extends Thread{
 	
 	private double x,y;
 	
+	private Navigation navi;
 	
 	
-	public OdometryCorrection(Odometer odo, LightSensorController right, LightSensorController left){
+	public OdometryCorrection(Odometer odo, LightSensorController right, LightSensorController left,Navigation nav){
 		this.odo = odo;
 		this.right = right;
 		this.left = left;
+		this.navi = nav;
+
+		
 	}
 	
 	public double calculate(boolean right){
@@ -85,7 +89,7 @@ public class OdometryCorrection extends Thread{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
+						//navi.foundLine();
 						break;
 					}
 				}		
@@ -109,13 +113,14 @@ public class OdometryCorrection extends Thread{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
+						//navi.foundLine();
 						break;
 					}
 				}		
 			}
 			while(rightValue < LINE && leftValue <LINE){
 				odo.setTheta(getNewTheta(newTheta));
+				
 			}
 		}
 	}

@@ -1,9 +1,11 @@
 import java.util.ArrayList;
-    import java.util.Stack;
+import java.util.Stack;
      
+
     import lejos.nxt.Motor;
-    import lejos.nxt.SensorPort;
-    import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
+import lejos.nxt.UltrasonicSensor;
      
     public class Navigation extends Thread{
            
@@ -13,16 +15,17 @@ import java.util.ArrayList;
             WheelDriver driver;
            
             //tolerance / error
-            private static final double TOLERANCE = 1.0, RADS = 0.2;
+            private static final double TOLERANCE = 1.0, RADS = 0.05;
             private static final int FORWARD_SPEED = 250;
             private static final int speedDifference = 3;
             private static final int ROTATE_SPEED = 150;
-            private static final double leftRadius = 2.1;
-            private static final double rightRadius = 2.15;
-            private static final double width = 9.3;
-            private boolean navigating;
+            private static final double leftRadius = 2.19;
+            private static final double rightRadius = 2.192;
+            private static final double width = 9.85;
+            private boolean navigating,line;
             public Stack<Waypoint> waypoints;
-           
+            
+            private CorrectionAngel angel;
      
            
             //Constructor
@@ -30,6 +33,7 @@ import java.util.ArrayList;
                     this.x = odometer.getX();
                     this.y = odometer.getY();
                     theta = odometer.getTheta();
+                    line = false;
                    
                     this.driver = driver;
                    
@@ -46,7 +50,9 @@ import java.util.ArrayList;
                    
             }
            
-           
+            public void setAngel(CorrectionAngel a){
+            	angel = a;
+            }
             //Constructor, takes a list of waypoints as parameter
             public Navigation(double x, double y, Odometer odometer, ArrayList<Waypoint> points, WheelDriver driver){
                     this.x = x;
@@ -54,6 +60,7 @@ import java.util.ArrayList;
                     theta = 0;
                     waypoints = new Stack<Waypoint>();
                     usensor = new UltrasonicSensor(SensorPort.S1);
+                    line = false;
                    
                     this.driver = driver;
                    
@@ -148,7 +155,21 @@ import java.util.ArrayList;
                     //waypoints.pop();
                     navigating = false;
             }
-           
+            
+            public void correct(){
+            	if(odometer.getTheta() > Math.PI){
+            		driver.setSpeed(20, -20);
+            	}
+            	else{
+            		driver.setSpeed(-20, 20);
+            	}
+            	while((odometer.getTheta() > RADS)){
+            		if(odometer.getTheta() < RADS){
+            			break;
+            		}
+            	}
+            	driver.setSpeed(0, 0);
+            }
             //Turns to angle theta (absolute)
             public void turnTo(double theta){
                     //get current theta from odometer
@@ -164,15 +185,15 @@ import java.util.ArrayList;
                            
                             //For CounterclockWise Rotation(Difference less than -180)
                             if(diff < (-1 * Math.PI)){
-                                    driver.setSpeed(200,-200);
+                                    driver.setSpeed(20,-20);
                             }
                             //otherwise Clockwise (either between -80 )
                             else if(diff < 0 || diff > Math.PI){
-                                    driver.setSpeed(-200,200);
+                                    driver.setSpeed(-20,20);
                             }
                             //Is between 0 and 180 (counterClockwise)
                             else{
-                                    driver.setSpeed(200,-200);;
+                                    driver.setSpeed(20,-20);;
                             }
                            
                             //Stops motors once completed
@@ -203,9 +224,37 @@ import java.util.ArrayList;
                             }
                     }
             }
-     
+            
+            public void foundLine(){
+            	line = true;
+            	
+            }
+            
+            public void testTile(){
+            	angel.toggle();
+            	odometer.setTheta(0);
+            	oneTileForward();
+            	while(line == false){
+                	if(line){
+                		angel.toggle();
+                		break;
+                	}
+            	}
+            	
+            	if(odometer.getTheta() != 0){
+            		
+            		odometer.pauseTheta();
+            		correct();
+            		odometer.pauseTheta();
+            	}
+            	
+            	line = false;
+            	
+            }
             //turns the robot clockwise by 90 degrees
             public void turnCW(){
+            				Motor.A.setAcceleration(500);
+            				Motor.B.setAcceleration(500);
                             Motor.A.setSpeed(ROTATE_SPEED);
                             Motor.B.setSpeed(ROTATE_SPEED);
      
@@ -214,6 +263,8 @@ import java.util.ArrayList;
             }
             // turns the robot counterclockwise by 90 degrees
             public void turnCCW() {
+            				Motor.A.setAcceleration(500);
+							Motor.B.setAcceleration(500);
                             Motor.A.setSpeed(ROTATE_SPEED);
                             Motor.B.setSpeed(ROTATE_SPEED);
      
@@ -222,13 +273,23 @@ import java.util.ArrayList;
             }
      		//method to move the robot 1 tile forward (30.24 centimeters)
             public void oneTileForward() {
+							Motor.A.setAcceleration(500);
+							Motor.B.setAcceleration(500);
                             Motor.A.setSpeed(FORWARD_SPEED);
                             Motor.B.setSpeed(FORWARD_SPEED - speedDifference);
      
                             Motor.A.rotate(convertDistance(leftRadius, 30.24), true);
                             Motor.B.rotate(convertDistance(rightRadius, 30.24), false);
             }
-     
+            public void turnAround(){
+				Motor.A.setAcceleration(500);
+				Motor.B.setAcceleration(500);
+                Motor.A.setSpeed(ROTATE_SPEED);
+                Motor.B.setSpeed(ROTATE_SPEED);
+
+                Motor.A.rotate(-convertAngle(leftRadius, width, 95.5*2), true);
+                Motor.B.rotate(convertAngle(rightRadius, width, 95.5*2), false);
+            }
             private static int convertDistance(double radius, double distance) {
                     return (int) ((180.0 * distance) / (Math.PI * radius));
             }

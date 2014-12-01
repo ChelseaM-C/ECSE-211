@@ -70,6 +70,9 @@ public class LCDDisplay extends Thread {
 			else if(display.equals("6")){
 				LCD.drawString("MAP 6", 0, 0);
 			}
+			else if(display.equals("7")){
+				LCD.drawString("MEM TEST", 0, 0);
+			}
 			// throttle the OdometryDisplay
 			displayEnd = System.currentTimeMillis();
 			if (displayEnd - displayStart < DISPLAY_PERIOD) {

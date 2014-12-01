@@ -16,9 +16,22 @@ public class MapTester {
 		boolean[][] walls3 = {{false,false,false,false,false,false,false,true},{false,false,false,false,false,false,false,false},{false,false,false,true,false,false,true,false}
 		,{false,false,true,true,true,false,true,false},{true,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false},{false,false,false,false,true,false,false,false},
 		{true,false,false,false,true,false,true,false}};
-		Map map = new Map(8,1);
+		boolean[][] walls7 = {{false,false,false,false,false,false,true,false,false,true,false,false},
+				{false,false,false,true,false,false,false,false,false,false,false,false},
+				{false,false,true,false,false,false,false,false,false,false,false,true},
+				{false,false,false,false,false,true,false,false,false,false,true,false},
+				{false,false,false,false,true,false,false,true,false,false,false,false},
+				{true,false,true,false,false,false,false,false,false,false,false,false},
+				{false,false,false,true,false,false,false,false,false,false,false,false},
+				{false,false,false,false,false,false,false,true,false,false,false,false},
+				{true,true,false,false,false,false,true,false,false,false,false,false},
+				{false,false,false,false,true,false,false,true,false,true,false,false},
+				{false,false,true,false,false,false,true,false,false,false,false,false},
+				{false,true,false,false,false,false,false,false,false,false,false,false}};
+		Map map = new Map(12,1);
 		
-		map.addWalls(walls3);
+		map.addWalls(walls7);
+
 		
 		map.populate();
 		if(map.getWalls() != null){
@@ -62,22 +75,22 @@ public class MapTester {
 		testPath.addSquare(new GridSquare(map,1,2,false));
 		testPath.addSquare(new GridSquare(map,1,3,false));
 		testPath.addSquare(new GridSquare(map,2,3,false));
-		System.out.println(testPath.toString());
+		//System.out.println(testPath.toString());
 		
-		Pathfinder jerry = new Pathfinder(map,map.getSquare(0, 0),map.getSquare(0, 6));
+		Pathfinder jerry = new Pathfinder(map,map.getSquare(0, 0),map.getSquare(11, 11));
 		jerry.genPath();
 		Path ps = jerry.getPath();
 		for(Waypoint point : ps.getPoints()){
-			System.out.println(point.getX() + "," + point.getY());
+			//System.out.println(point.getX() + "," + point.getY());
 		}
 		System.out.println(jerry.getPath().toString());
 		
 		Ghost robot = new Ghost(5,2,"N",map);
 		//robot.turn()
 		
-		Localizer loc = new Localizer(map,robot);
-		loc.run();
-		System.out.println(robot.getX() + " , " + robot.getY() + " , " + robot.getOrientation() + " , " + robot.wallinFront());
+		//Localizer loc = new Localizer(map,robot);
+		//loc.run();
+		//System.out.println(robot.getX() + " , " + robot.getY() + " , " + robot.getOrientation() + " , " + robot.wallinFront());
 		//System.out.println(map.getSquare(0, 6).isWall());
 
 		//System.out.println(loc.numValid());
@@ -90,6 +103,6 @@ public class MapTester {
 		//System.out.println(g.getX() + " , " + g.getY() + " , " + g.getOrientation() + " , " + g.wallinFront());
 		
 
-		System.out.println(Math.PI/2 * 3);
+		//System.out.println(Math.PI/2 * 3);
 	}
 }

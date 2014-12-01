@@ -21,29 +21,34 @@ public class WheelDriver {
 		this.rightMotor = right;
 	}
 	
+	public void setAccel(int acc){
+		leftMotor.setAcceleration(acc);
+		rightMotor.setAcceleration(acc);
+	}
+	
 	public void setSpeed(int left, int right){
 		if(left == 0){
-			Motor.A.stop();
+			leftMotor.stop();
 		}
 		else if(left > 0){
-			Motor.A.forward();
-			Motor.A.setSpeed(left);
+			leftMotor.forward();
+			leftMotor.setSpeed(left);
 		}
 		else{
-			Motor.A.backward();
-			Motor.A.setSpeed(Math.abs(left));
+			leftMotor.backward();
+			leftMotor.setSpeed(Math.abs(left));
 		}
 		
 		if(right == 0){
-			Motor.B.stop();
+			rightMotor.stop();
 		}
 		else if(right > 0){
-			Motor.B.forward();
-			Motor.B.setSpeed(right);  //changed made
+			rightMotor.forward();
+			rightMotor.setSpeed(right);  //changed made
 		}
 		else{
-			Motor.B.backward();
-			Motor.B.setSpeed(Math.abs(right));
+			rightMotor.backward();
+			rightMotor.setSpeed(Math.abs(right));
 		}
 	}
 	

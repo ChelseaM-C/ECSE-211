@@ -5,6 +5,7 @@
  */
 public class Ghost {
 	private int x,y;
+	private int startX,startY;
 	private boolean valid;
 	
 	private String orientation;
@@ -21,6 +22,8 @@ public class Ghost {
 	public Ghost(int x, int y, String o, Map m){
 		this.x = x;
 		this.y = y;
+		startX = x;
+		startY = y;
 		this.orientation = o;
 		this.map = m;
 		this.valid = true;

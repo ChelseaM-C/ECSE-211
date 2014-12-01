@@ -1,9 +1,12 @@
+import java.io.File;
+
 import lejos.nxt.Button;
 import lejos.nxt.ColorSensor;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 
 
@@ -36,6 +39,19 @@ public class Simon {
 		,{false,false,true,true,true,false,true,false},{true,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false},{false,false,false,false,true,false,false,false},
 		{true,false,false,false,true,false,true,false}};
 		
+		boolean[][] walls7 = {{false,false,false,false,false,false,true,false,false,true,false,false},
+				{false,false,false,true,false,false,false,false,false,false,false,false},
+				{false,false,true,false,false,false,false,false,false,false,false,true},
+				{false,false,false,false,false,true,false,false,false,false,true,false},
+				{false,false,false,false,true,false,false,true,false,false,false,false},
+				{true,false,true,false,false,false,false,false,false,false,false,false},
+				{false,false,false,true,false,false,false,false,false,false,false,false},
+				{false,false,false,false,false,false,false,true,false,false,false,false},
+				{true,true,false,false,false,false,true,false,false,false,false,false},
+				{false,false,false,false,true,false,false,true,false,true,false,false},
+				{false,false,true,false,false,false,true,false,false,false,false,false},
+				{false,true,false,false,false,false,false,false,false,false,false,false}};
+		
 		
 		
 		//Initialize EVERYTHING HERE DAMMIT
@@ -56,9 +72,15 @@ public class Simon {
 		LightSensorPoller leftPoll = new LightSensorPoller(leftCS);
 		LightSensorController leftCSControl = new LightSensorController(leftPoll);
 		
+		FindLine lineLeft = new FindLine(leftPoll);
+		FindLine lineRight = new FindLine(rightPoll);
+		
+		
 		//Odometer Initialization
 		Odometer odometer = new Odometer();
-		OdometryCorrection correction = new OdometryCorrection(odometer, rightCSControl, leftCSControl);
+		//Initialize map, localization, and navigation.
+		Navigation nav = new Navigation(0,0,odometer, wheels);
+		CorrectionAngel correction = new CorrectionAngel(odometer, leftCSControl, rightCSControl,wheels, lineLeft, lineRight, nav);
 		LCDDisplay display = new LCDDisplay(odometer);
 		
 		//Ultrasonic Initialization
@@ -67,8 +89,7 @@ public class Simon {
 		usPoller.start();
 		UltrasonicController usController = new UltrasonicController(usPoller);
 		
-		//Initialize map, localization, and navigation.
-		Navigation nav = new Navigation(0,0,odometer, wheels);
+
 		
 
 		int mapID = 1;
@@ -76,6 +97,8 @@ public class Simon {
 		//Start all the threads
 		rightPoll.start();
 		leftPoll.start();
+		lineLeft.start();
+		lineRight.start();
 //		odometer.start();
 //		nav.start();
 		display.setDisplay(String.valueOf(mapID));
@@ -112,7 +135,7 @@ public class Simon {
 			}
 		}
 
-		if (buttonChoice == Button.ID_ENTER) {
+		if (buttonChoice == Button.ID_LEFT) {
 			LCD.clear();
 			LCD.drawInt(mapID, 0, 0);
 			//claw.close();
@@ -121,13 +144,7 @@ public class Simon {
 			//odometer.setX(15);
 			//odometer.setY(15);
 			//correction.start();
-			//Path testPath = new Path();
-//			testPath.addSquare(new GridSquare(map,0,0,false));
-//			testPath.addSquare(new GridSquare(map,1,0,false));
-//			testPath.addSquare(new GridSquare(map,1,1,false));
-//			testPath.addSquare(new GridSquare(map,2,1,false));
-//			testPath.addSquare(new GridSquare(map,1,3,false));
-//			testPath.addSquare(new GridSquare(map,2,3,false));
+
 			
 			//nav.travelPath(testPath);
 
@@ -146,11 +163,29 @@ public class Simon {
 			
 		}
 		else{
-			blockPickUp bp = new blockPickUp(claw,leftMotor,rightMotor);
+			blockPickUp bp = new blockPickUp(claw,leftMotor,rightMotor, usController);
 			odometer.start();
+			correction.start();
+			nav.setAngel(correction);
 			Map map = new Map(8,1);
 			if(mapID == 1){
+				display.setDisplay("ODOMETER");
+				//nav.testTile();
+				//nav.testTile();
+				nav.turnAround();
+				nav.testTile();
+				nav.testTile();
+				try {
+					Thread.sleep(100000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.exit(69);
 				map.addWalls(walls1);
+
+				//nav.testTile();
+				
 			}
 			else if(mapID == 2){
 				map.addWalls(walls2);
@@ -166,9 +201,50 @@ public class Simon {
 			}
 			else if(mapID == 6){
 				map.addWalls(walls6);
+				
+			}
+			
+			else if(mapID == 7){
+				display.setDisplay("NONE");
+				LCD.clear();
+				map = new Map(12,1);
+				map.addWalls(walls7);
+				map.populate();
+				
+				//Pathfinder PATHGENEH8TR = new Pathfinder(map,map.getSquare(1, 2),map.getSquare(11,11));
+				//PATHGENEH8TR.genPath();
+				Pathfinder pf = new Pathfinder(map,map.getSquare(1, 2),map.getSquare(11, 11));
+				pf.genPath();
+				map = new Map(12,1);
+				map.addWalls(walls7);
+				map.populate();
+				pf = new Pathfinder(map,map.getSquare(11, 11),map.getSquare(1, 2));
+				pf.genPath();
+				LCD.drawInt(File.freeMemory(), 0, 0);
+				//LCD.clear();
+				//LCD.drawInt(69, 0, 0);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.exit(69);
+				
 			}
 			map.populate();
+			Path testPath = new Path();
+			testPath.addSquare(new GridSquare(map,0,0,false));
+			testPath.addSquare(new GridSquare(map,1,0,false));
+			testPath.addSquare(new GridSquare(map,0,0,false));
+			testPath.addSquare(new GridSquare(map,0,1,false));
+			testPath.addSquare(new GridSquare(map,0,0,false));
 			display.setDisplay("ODOMETER");
+			
+			PathTravel pt = new PathTravel(0,0,"N",nav,testPath);
+			//pt.moveNorth();
+			//pt.moveEast();
+			pt.travelPath();
 			//display.start();
 			Localizer localizer = new Localizer(map,odometer,nav,usPoller);
 			localizer.run();

@@ -6,8 +6,8 @@ public class PathTravel {
 	 *     |
 	 *     S
 	 */
-	int x,y;
-	String orientation;
+	private int x,y;
+	private String orientation;
 	private Navigation navi;
 	private Path path;
 	public PathTravel(int x,int y, String o, Navigation n,Path p){
@@ -15,100 +15,109 @@ public class PathTravel {
 		this.y = y;
 		path = p;
 		orientation = o;
+		navi = n;
 	}
 	
 	public void moveNorth(){
 		y++;
 		if(orientation.equals("N")){
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("S")){
 			navi.turnCCW();
 			navi.turnCCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("E")){
 			navi.turnCCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("W")){
 			navi.turnCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
+		orientation = "N";
 	}
 	public void moveSouth(){
 		y--;
 		if(orientation.equals("S")){
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("N")){
 			navi.turnCCW();
 			navi.turnCCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("W")){
 			navi.turnCCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("E")){
 			navi.turnCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
+		orientation = "S";
 	}
 	public void moveEast(){
 		x++;
 		if(orientation.equals("E")){
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("W")){
 			navi.turnCCW();
 			navi.turnCCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("S")){
 			navi.turnCCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("N")){
 			navi.turnCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
+		orientation = "E";
 	}
 	public void moveWest(){
 		x--;
 		if(orientation.equals("W")){
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("E")){
 			navi.turnCCW();
 			navi.turnCCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("N")){
 			navi.turnCCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
 		else if(orientation.equals("S")){
 			navi.turnCW();
-			navi.oneTileForward();
+			navi.testTile();
 		}
+		orientation = "W";
 	}
 	
 	public String getNext(GridSquare next){
 		String mov = "";
-		if(next.getY() == y+1){
+		if(next.getY() == y+1 && next.getX() == x){
 			mov = "N";
 		}
-		else if(next.getY() == y-1){
+		else if(next.getY() == y-1 && next.getX() == x){
 			mov = "S";
 		}
-		else if(next.getX() == x+1){
+		else if(next.getX() == x+1 && next.getY() == y){
 			mov = "E";
 		}
-		else if(next.getX() == x-1){
+		else if(next.getX() == x-1 && next.getY() == y){
 			mov = "W";
 		}
 		return mov;
+	}
+	
+	public void setPath(Path pat){
+		this.path = pat;
 	}
 	
 	public void travelPath(){

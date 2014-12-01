@@ -20,20 +20,26 @@ public class CorrectionAngel extends Thread{
         private double x,y;
         private boolean leftFound = false, rightFound = false ;
         private Object lock ;
- 
-        private WheelDriver nav;
+        
+        private boolean locked;
+        
+        private Navigation nav;
+        private WheelDriver driver;
         private FindLine lineFinderRight ;
         private FindLine lineFinderLeft ;
        
        
-        public CorrectionAngel(Odometer odo, LightSensorController left, LightSensorController right, WheelDriver nav, FindLine lineFinderLeft ,FindLine lineFinderRight ){
+        public CorrectionAngel(Odometer odo, LightSensorController left, LightSensorController right, WheelDriver driver, FindLine lineFinderLeft ,FindLine lineFinderRight, Navigation nav ){
                 this.odo = odo;
                 this.right = right;
                 this.left = left;
                 this.lineFinderLeft = lineFinderLeft ;
                 this.lineFinderRight = lineFinderRight ;
                
-                this.nav = nav ;
+                locked = true;
+                
+                this.nav = nav;
+                this.driver = driver;
         }
        
         public double calculate(boolean right){
@@ -55,7 +61,9 @@ public class CorrectionAngel extends Thread{
                  
         }
        
-       
+       public void toggle(){
+    	   locked = !locked;
+       }
        
         synchronized public double getNewTheta(double theta){
                 double oldTheta = Math.toDegrees(odo.getTheta());
@@ -96,7 +104,7 @@ public class CorrectionAngel extends Thread{
                
                         updateStart = System.currentTimeMillis() ;
                        
-                        if(lineFinderRight.line()) {
+                        if(lineFinderRight.line() && !locked) {
                                
                                 yLast = odo.getY();
                                 xLast = odo.getX();
@@ -110,7 +118,7 @@ public class CorrectionAngel extends Thread{
                                                 x = odo.getX();
                                
        
-                                               
+                                                nav.foundLine();
                                                 newTheta = calculate(true);
                                                 leftFound = true;
                                                 Sound.beep() ;
@@ -142,7 +150,7 @@ public class CorrectionAngel extends Thread{
                                         Thread.sleep(2000);
                                 } catch (InterruptedException e) {}
                                
-                        }else  if(lineFinderLeft.line()){
+                        }else  if(lineFinderLeft.line() && !locked){
                                                         //Left Sensor passes first                                                     
                                    yLast = odo.getY();
                                    xLast = odo.getX();
@@ -160,6 +168,7 @@ public class CorrectionAngel extends Thread{
                                              newTheta = calculate(false);
                                                  rightFound = true;
                                                  Sound.buzz() ;
+                                                 nav.foundLine();
                                             }
                                           RConsole.println("  waiting for right") ;
                                     }  
