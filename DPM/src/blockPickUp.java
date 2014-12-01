@@ -140,6 +140,7 @@ public class blockPickUp extends Thread {
             travelForward(forwardThreshold);
             rotateCCW((6.5 - storeI)*turnAngle);
             travelForward(storeW*forwardDistance);
+            
         } else if (loopBreak > 0 && storeI > 6){
             rotateCCW(180);
             travelForward(forwardThreshold);
