@@ -62,7 +62,7 @@ public class blockPickUp extends Thread {
             }
             //turn to -60 and scan every angle in the interval of 10 degrees from -60 to +60 degrees
             rotateCCW(60);
-            for (int i = 0 ; i < 13 ; i++){
+            for (int i = 0 ; i < 11 ; i++){
                 rotateCCW(turnAngle);
 
                 //true if the sensor detects somthing
