@@ -1,9 +1,9 @@
 
 public class Ghost {
-	private int x,y;
+	private int x,y,startX,startY;
 	private boolean valid;
 	
-	private String orientation;
+	private String orientation,startO;
 	
 	private Map map;
 	
@@ -13,6 +13,9 @@ public class Ghost {
 		this.orientation = o;
 		this.map = m;
 		this.valid = true;
+		startX = x;
+		startY = y;
+		startO = o;
 	}
 	
 	public void invalid(){
@@ -83,7 +86,15 @@ public class Ghost {
 		return 0;
 	}
 	
-	
+	public int getStartX(){
+		return startX;
+	}
+	public int getStartY(){
+		return startY;
+	}
+	public String getStartO(){
+		return startO;
+	}
 	public int getX(){
 		return x;
 	}

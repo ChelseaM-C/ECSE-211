@@ -16,7 +16,7 @@ public class Localizer {
 
 	int gridx, gridy, turncount;
 
-	private static final int WALL = 25;
+	private static final int WALL = 30;
 	private static final int WALL2 = 50;
 	
 	private String orientation;
@@ -31,7 +31,7 @@ public class Localizer {
 
 	private ArrayList<Ghost> ghosts;
 
-	private UltrasonicPoller controller;
+	private UltrasonicController controller;
 
 	/**
 	 * Creates a new localizer
@@ -45,20 +45,20 @@ public class Localizer {
 	 * @param uc
 	 *            the ultrasonic Controller
 	 */
-	public Localizer(Map map, Odometer odo, Navigation nav, UltrasonicPoller uc) {
+	public Localizer(Map map, Odometer odo, Navigation nav, UltrasonicController uc) {
 		this.map = map;
 		running = true;
 		this.nav = nav;
 		this.odo = odo;
 		this.controller = uc;
 		ghosts = new ArrayList<Ghost>();
-		for (int i = 0; i < map.getSize(); i++) {
-			for (int j = 0; j < map.getSize(); j++) {
-				if (!map.getSquare(i, j).isWall()) {
-					Ghost n = new Ghost(i, j, "N", map);
-					Ghost s = new Ghost(i, j, "S", map);
-					Ghost w = new Ghost(i, j, "W", map);
-					Ghost e = new Ghost(i, j, "E", map);
+		for(int i = 0; i < map.getSize(); i++){
+			for(int j = 0; j < map.getSize(); j++){
+				if(!map.getSquare(i,j).isWall()){
+					Ghost n = new Ghost(i,j,"N",map);
+					Ghost s = new Ghost(i,j,"S",map);
+					Ghost w = new Ghost(i,j,"W",map);
+					Ghost e = new Ghost(i,j,"E",map);
 					ghosts.add(n);
 					ghosts.add(s);
 					ghosts.add(w);
@@ -73,39 +73,39 @@ public class Localizer {
 	 * 
 	 * @return running (true = running)
 	 */
-	public boolean isRunning() {
+	public boolean isRunning(){
 		return running;
 	}
-
-	public int numValid() {
+	
+	public int numValid(){
 		int num = 0;
-		for (Ghost g : ghosts) {
-			if (g.isValid()) {
+		for(Ghost g : ghosts){
+			if(g.isValid()){
 				num++;
 			}
 		}
 		return num;
 	}
-
-	public void noWall() {
-		for (Ghost g : ghosts) {
-			if (g.wallinFront() != 0) {
+	
+	public void noWall(){
+		for(Ghost g: ghosts){
+			if(g.wallinFront() != 0){
 				g.invalid();
 			}
 		}
 	}
-
-	public void wall() {
-		for (Ghost g : ghosts) {
-			if (g.wallinFront() == 0) {
+	
+	public void wall(){
+		for(Ghost g : ghosts){
+			if(g.wallinFront() == 0){
 				g.invalid();
 			}
 		}
 	}
-
-	public void wall2() {
-		for (Ghost g : ghosts) {
-			if (g.wallinFront() != 2) {
+	
+	public void wall2(){
+		for(Ghost g : ghosts){
+			if(g.wallinFront() != 2){
 				g.invalid();
 			}
 		}
@@ -115,15 +115,20 @@ public class Localizer {
 	 * Main runnable, will localize to given map
 	 */
 	public void run() {
-		while (numValid() > 1) {
-
+		controller.start();
+		do {
+			for(int i = 0; i != 50; i++){
+				controller.getFilteredDist();
+				LCD.clear();
+				LCD.drawInt(controller.getFilteredDist(), 0, 0);
+			}
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (controller.getDist() < WALL) {
+			if (controller.getFilteredDist() < WALL) {
 				Sound.beep();
 				wall();
 				nav.turnCCW();
@@ -132,7 +137,31 @@ public class Localizer {
 						g.turnLeft();
 					}
 				}
-			} else {
+			} 
+			else if(controller.getFilteredDist() < WALL2){
+				Sound.beepSequenceUp();
+				wall2();
+				if(turncount >= 3){
+					//thresh++;
+					turncount = 0;
+					nav.turnCCW();
+					for(Ghost g : ghosts){
+						if(g.isValid()){
+							g.turnLeft();
+						}
+					}
+				}
+				else{
+					turncount++;
+					nav.testTile();
+					for(Ghost g : ghosts){
+						if(g.isValid()){
+							g.move();
+						}
+					}
+				}
+			}
+			else {
 				noWall();
 				if (turncount >= 3) {
 					turncount = 0;
@@ -153,34 +182,37 @@ public class Localizer {
 				}
 
 			}
-		}
+		}while(numValid() > 1);
 		for (Ghost g : ghosts) {
 			if (g.isValid()) {
+				LCD.clear();
 				gridx = g.getX();
 				gridy = g.getY();
-
-				odo.setX(g.getX() * 30 + 15);
-				odo.setY(g.getY() * 30 + 15);
-				if (g.getOrientation().equals("N")) {
-					odo.setTheta(0);
-					thet = 0;
-				}
-				if (g.getOrientation().equals("S")) {
-					odo.setTheta(Math.PI);
-					thet = Math.PI;
-				}
-				if (g.getOrientation().equals("E")) {
-					odo.setTheta(Math.PI / 2);
-					thet = Math.PI / 2;
-				}
-				if (g.getOrientation().equals("W")) {
-					odo.setTheta(3 * (Math.PI / 2));
-					thet = 3 * Math.PI / 2;
-				}
+				orientation = g.getOrientation();
+				LCD.drawInt(g.getStartX(), 0, 0);
+				LCD.drawInt(g.getStartY(), 0, 2);
+//				odo.setX(g.getX() * 30 + 15);
+//				odo.setY(g.getY() * 30 + 15);
+//				if (g.getOrientation().equals("N")) {
+//					odo.setTheta(0);
+//					thet = 0;
+//				}
+//				if (g.getOrientation().equals("S")) {
+//					odo.setTheta(Math.PI);
+//					thet = Math.PI;
+//				}
+//				if (g.getOrientation().equals("E")) {
+//					odo.setTheta(Math.PI / 2);
+//					thet = Math.PI / 2;
+//				}
+//				if (g.getOrientation().equals("W")) {
+//					odo.setTheta(3 * (Math.PI / 2));
+//					thet = 3 * Math.PI / 2;
+//				}
 			}
 		}
 
-		Sound.beep();
+		Sound.beepSequence();
 		running = false;
 	}
 

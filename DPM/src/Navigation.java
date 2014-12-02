@@ -3,10 +3,12 @@ import java.util.Stack;
      
 
 
+
     import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
+import lejos.robotics.BaseMotor;
      
     public class Navigation extends Thread{
            
@@ -236,6 +238,7 @@ import lejos.nxt.UltrasonicSensor;
             }
             
             public void testTile(){
+            	angel = null;
             	angel = new CorrectionAngel(this.odometer,null,null,null,left,right, this);
             	angel.start();
             	//angel.toggle();
@@ -254,7 +257,6 @@ import lejos.nxt.UltrasonicSensor;
             		correct();
             		odometer.pauseTheta();
             	}
-            	
             	line = false;
             	
             }
@@ -285,8 +287,8 @@ import lejos.nxt.UltrasonicSensor;
                             Motor.A.setSpeed(FORWARD_SPEED);
                             Motor.B.setSpeed(FORWARD_SPEED - speedDifference);
      
-                            Motor.A.rotate(convertDistance(leftRadius, 30.24 + 2), true);
-                            Motor.B.rotate(convertDistance(rightRadius, 30.24 + 2), false);
+                            Motor.A.rotate(convertDistance(leftRadius, 30.24 +2), true);
+                            Motor.B.rotate(convertDistance(rightRadius, 30.24 +2), false);
             }
             public void turnAround(){
 				Motor.A.setAcceleration(500);

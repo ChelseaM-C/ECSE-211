@@ -137,4 +137,22 @@ public class PathTravel {
 			}
 		}
 	}
+
+	public void faceWest() {
+		if(orientation.equals("W")){
+			navi.testTile();
+		}
+		else if(orientation.equals("E")){
+			navi.turnCCW();
+			navi.turnCCW();
+		}
+		else if(orientation.equals("N")){
+			navi.turnCCW();
+		}
+		else if(orientation.equals("S")){
+			navi.turnCW();
+		}
+		orientation = "W";
+		
+	}
 }

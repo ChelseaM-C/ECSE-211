@@ -10,7 +10,7 @@ public class ClawDriver {
 	
 	private boolean isClosed;
 	
-	private static final int CLOSING_SPEED = 200;
+	private static final int CLOSING_SPEED = 300;
 	
 	private static final int CLOSING_DIST = 10;
 	
@@ -30,7 +30,7 @@ public class ClawDriver {
 		if(!isClosed){
 			//close here
 			claw.setSpeed(CLOSING_SPEED);
-			claw.rotate(680+270);
+			claw.rotate(1100);
 			isClosed = true;
 		}
 	}

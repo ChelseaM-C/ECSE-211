@@ -83,7 +83,7 @@ public class Localizer extends Thread{
 	}
 	
 	public void run(){
-		while(numValid() > 1){
+		do{
 			System.out.println(robot.getX() + " , " + robot.getY() + " , " + robot.getOrientation() + " , " + robot.wallinFront());
 			System.out.println(numValid());
 			if(robot.wallinFront() == 1){
@@ -92,6 +92,28 @@ public class Localizer extends Thread{
 				for(Ghost g : ghosts){
 					if(g.isValid()){
 						g.turnLeft();
+					}
+				}
+			}
+			else if(robot.wallinFront() == 2){
+				wall2();
+				if(turncount >= 3){
+					//thresh++;
+					turncount = 0;
+					robot.turnLeft();
+					for(Ghost g : ghosts){
+						if(g.isValid()){
+							g.turnLeft();
+						}
+					}
+				}
+				else{
+					turncount++;
+					robot.move();
+					for(Ghost g : ghosts){
+						if(g.isValid()){
+							g.move();
+						}
 					}
 				}
 			}
@@ -118,13 +140,14 @@ public class Localizer extends Thread{
 					}
 				}
 			}
-		}
+		} while(numValid() > 1);
 		for(Ghost g : ghosts){
 			if(g.isValid()){
 				System.out.println(g.getX());
 				System.out.println(g.getY());
-				System.out.println(g.getX()*30 + 15);
-				System.out.println(g.getY()*30 + 15);
+				System.out.println(g.getStartX());
+				System.out.println(g.getStartY());
+				System.out.println(g.getStartO());
 				System.out.println(g.getOrientation());
 			}
 		}

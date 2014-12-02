@@ -167,11 +167,11 @@ public class Simon {
 			odometer.start();
 			//correction.start();
 			nav.setAngel(correction);
-			Map map = new Map(8,1);
+			Map map = new Map(12,1);
 			if(mapID == 1){
 				clawCS.setFloodlight(Color.BLUE);
 				display.setDisplay("ODOMETER");
-				map.addWalls(walls1);
+				//map.addWalls(walls2);
 				
 			}
 			else if(mapID == 2){
@@ -217,7 +217,9 @@ public class Simon {
 				System.exit(69);
 				
 			}
-
+			clawCS.setFloodlight(Color.BLUE);
+			display.setDisplay("ODOMETER");
+			map.addWalls(walls2);
 			map.populate();
 //			Path testPath = new Path();
 //			testPath.addSquare(new GridSquare(map,0,0,false));
@@ -230,27 +232,31 @@ public class Simon {
 			LCD.clear();
 //			PathTravel pt = new PathTravel(0,0,"N",nav,testPath);
 //			pt.travelPath();
-			Localizer localizer = new Localizer(map,odometer,nav,usPoller);
+			Localizer localizer = new Localizer(map,odometer,nav,usController);
 			localizer.run();
 			clawCS.setFloodlight(Color.GREEN);
+			int x = localizer.getX();
+			int y = localizer.getY();
+			String o = localizer.getO();
+			localizer = null;
+			//LCD.clear();
+			//LCD.drawInt(localizer.getX(), 0, 0);
+			//LCD.drawInt(localizer.getY(), 0, 2);
+			Pathfinder pf = new Pathfinder(map,map.getSquare(2, 1),map.getSquare(x, y));
 			
-			
-			LCD.drawInt(localizer.getX(), 0, 0);
-			LCD.drawInt(localizer.getY(), 0, 2);
-			Pathfinder pf = new Pathfinder(map,map.getSquare(1, 2),map.getSquare(localizer.getX(), localizer.getY()));
-			clawCS.setFloodlight(Color.BLUE);
 			pf.genPath();
 			clawCS.setFloodlight(Color.RED);
-			PathTravel pt = new PathTravel(localizer.getX(),localizer.getY(),localizer.getO(),nav,pf.getPath());
+			PathTravel pt = new PathTravel(x,y,o,nav,pf.getPath());
 			pt.travelPath();
-
+			pt.faceWest();
+			
 			try {
 				Thread.sleep(1500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			bp.scanRange();
 
 		}
 		
