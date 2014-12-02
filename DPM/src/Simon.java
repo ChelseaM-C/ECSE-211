@@ -1,6 +1,3 @@
-import java.io.File;
-import java.util.Random;
-
 import lejos.nxt.Button;
 import lejos.nxt.ColorSensor;
 import lejos.nxt.LCD;
@@ -16,10 +13,6 @@ public class Simon {
 		int buttonChoice;
 		
 
-		
-		boolean[][] walls7 = {{false,false,false,false,false,true,false,false},{false,false,false,false,false,false,false,true},{false,false,false,false,true,false,true,true}
-		,{false,false,false,false,false,true,false,false},{false,true,true,true,false,false,false,false},{false,false,false,false,false,false,false,false},{false,false,true,false,false,true,false,false},
-		{true,false,true,true,false,false,true,false}};
 		
 		boolean[][] walls1 = {{true,true,false,false,false,false,true,false,false,true,false,false},
 				{true,true,false,true,false,false,false,false,false,false,false,false},
@@ -61,15 +54,46 @@ public class Simon {
 				{false,false,true,false,false,false,false,false,false,false,false,true}};
 		
 		//Other three maps.
-		boolean[][] walls4 = {{false,false,false,false,false,false,false,true},{false,false,false,false,false,false,false,false},{false,false,false,true,false,false,true,false}
-		,{false,false,true,true,true,false,true,false},{true,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false},{false,false,false,false,true,false,false,false},
-		{true,false,false,false,true,false,true,false}};
-		boolean[][] walls5 = {{false,false,false,false,false,false,false,true},{false,false,false,false,false,false,false,false},{false,false,false,true,false,false,true,false}
-		,{false,false,true,true,true,false,true,false},{true,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false},{false,false,false,false,true,false,false,false},
-		{true,false,false,false,true,false,true,false}};
-		boolean[][] walls6 = {{false,false,false,false,false,false,false,true},{false,false,false,false,false,false,false,false},{false,false,false,true,false,false,true,false}
-		,{false,false,true,true,true,false,true,false},{true,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false},{false,false,false,false,true,false,false,false},
-		{true,false,false,false,true,false,true,false}};
+		boolean[][] walls4 = {{true, true, true, true, true, false, false, false, true, false, false, false},
+				{true, true, false, false, true, false, false, false, false, false, false, false},
+				{true, false, false, false, false, true, false, false, false, false, true, false},
+				{false, false, true, false, false, false, false, false, false, true, false, true},
+				{false, false, false, true, false, false, false, false, false, false, false, false},
+				{false, false, false, false, false, false, false, false, false, false, true, false},
+				{false, false, false, false, true, false, false, false, false, false, false, false},
+				{false, false, false, false, false, false, false, false, false, false, false, false},
+				{false, false, false, false, true, false, false, false, true, false, false, false},
+				{true, false, false, false, true, false, true, false, false, false, false, false},
+				{false, false, false, false, false, false, false, false, false, false, false, false},
+				{false, true, false, false, false, true, false, false, false, false, true, false}};
+		
+		
+		boolean[][] walls5 = {{true, true, false, true, false, true, false, false, true, false, false, false},
+				{true, true, false, false, false, false, false, false, false, false, false, false},
+				{false, false, false, false, false, false, false, false, false, false, false, false},
+				{false, true, false, true, false, false, false, false, false, false, true, false},
+				{false, false, false, true, false, false, true, true, false, false, true, false},
+				{false, false, false, false, false, false, false, false, true, false, false, false},
+				{false, false, false, false, false, false, false, false, false, true, false, false},
+				{false, false, false, false, false, false, true, true, false, false, false, false},
+				{false, true, false, false, false, true, false, false, false, false, true, false},
+				{false, false, true, false, false, false, true, false, false, false, false, false},
+				{false, false, false, false, false, false, false, false, false, false, true, false},
+				{false, false, true, false, false, false, false, false, false, true, false, false}};
+		
+		
+		boolean[][] walls6 = {{true, true, false, false, false, false, false, false, false, false, true, false},
+				{true, true, false, false, false, true, false, false, false, false, false, false},
+				{false, false, false, true, false, false, false, false, false, false, false, false},
+				{false, false, true, false, false, false, false, false, false, false, true, false},
+				{false, false, true, false, false, false, false, true, false, false, false, false},
+				{false, false, true, false, true, false, true, false, false, false, false, true},
+				{false, false, false, false, false, true, false, false, false, true, false, false},
+				{false, false, false, false, false, false, true, false, true, false, false, false},
+				{false, false, true, false, false, false, false, false, false, false, true, false},
+				{true, false, false, false, true, false, false, false, true, false, false, false},
+				{false, false, false, false, false, true, false, false, false, false, true, false},
+				{false, false, false, false, false, false, false, false, false, false, false, false}};
 
 		
 		
@@ -89,7 +113,6 @@ public class Simon {
 		ColorSensor clawCS = new ColorSensor(SensorPort.S4);
 		//clawCS.setFloodlight(true);
 		
-		Random rand = new Random();
 		LightSensorPoller rightPoll = new LightSensorPoller(rightCS);
 		LightSensorController rightCSControl = new LightSensorController(rightPoll);
 		LightSensorPoller leftPoll = new LightSensorPoller(leftCS);
@@ -112,7 +135,7 @@ public class Simon {
 		usPoller.start();
 		UltrasonicController usController = new UltrasonicController(usPoller);
 		
-
+		
 		
 
 		int mapID = 1;
@@ -163,75 +186,103 @@ public class Simon {
 			
 		}
 		else{
-			blockPickUp bp = new blockPickUp(claw,leftMotor,rightMotor, usController);
+			display.setDisplay("NONE");
+			LCD.clear();
+			int dropX = 0;
+			int dropY = 0;
+			do{
+				buttonChoice = Button.waitForAnyPress();
+				LCD.clear();
+				LCD.drawInt(dropX, 0, 0);
+				LCD.drawInt(dropY,0,2);
+				if(buttonChoice == Button.ID_RIGHT){
+					dropX++;
+					buttonChoice = Button.waitForAnyPress();
+				}
+				if(buttonChoice == Button.ID_LEFT){
+					dropY++;
+					buttonChoice = Button.waitForAnyPress();
+				}
+			}while(buttonChoice != Button.ID_ENTER);
+			clawCS.setFloodlight(Color.BLUE);
+			LCD.clear();
+			LCD.drawInt(dropX, 0, 0);
+			LCD.drawInt(dropY,0,2);
+			try {
+				Thread.sleep(00);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			odometer.start();
 			//correction.start();
 			nav.setAngel(correction);
 			Map map = new Map(12,1);
 			if(mapID == 1){
-				clawCS.setFloodlight(Color.BLUE);
-				display.setDisplay("ODOMETER");
-				//map.addWalls(walls2);
-				
+				map.addWalls(walls1);
+				walls1 = null;
+				walls2 = null;
+				walls3 = null;
+				walls4 = null;
+				walls5 = null;
+				walls6 = null;
 			}
 			else if(mapID == 2){
 				map.addWalls(walls2);
+				walls1 = null;
+				walls2 = null;
+				walls3 = null;
+				walls4 = null;
+				walls5 = null;
+				walls6 = null;
 			}
 			else if(mapID == 3){
 				map.addWalls(walls3);
+				walls1 = null;
+				walls2 = null;
+				walls3 = null;
+				walls4 = null;
+				walls5 = null;
+				walls6 = null;
 			}
 			else if(mapID == 4){
 				map.addWalls(walls4);
+				walls1 = null;
+				walls2 = null;
+				walls3 = null;
+				walls4 = null;
+				walls5 = null;
+				walls6 = null;
 			}
 			else if(mapID == 5){
 				map.addWalls(walls5);
+				walls1 = null;
+				walls2 = null;
+				walls3 = null;
+				walls4 = null;
+				walls5 = null;
+				walls6 = null;
 			}
 			else if(mapID == 6){
 				map.addWalls(walls6);
-				
-			}
-			
-			//Memory tester
-			else if(mapID == 7){
-				display.setDisplay("NONE");
-				LCD.clear();
-				map = new Map(12,1);
-				map.addWalls(walls7);
-				map.populate();
-				Pathfinder pf = new Pathfinder(map,map.getSquare(1, 2),map.getSquare(11, 11));
-				pf.genPath();
-				map = new Map(12,1);
-				map.addWalls(walls7);
-				map.populate();
-				pf = new Pathfinder(map,map.getSquare(11, 11),map.getSquare(1, 2));
-				pf.genPath();
-				LCD.drawInt(File.freeMemory(), 0, 0);
-				//LCD.clear();
-				//LCD.drawInt(69, 0, 0);
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				System.exit(69);
+				walls1 = null;
+				walls2 = null;
+				walls3 = null;
+				walls4 = null;
+				walls5 = null;
+				walls6 = null;
 				
 			}
 			clawCS.setFloodlight(Color.BLUE);
 			display.setDisplay("ODOMETER");
-			map.addWalls(walls2);
+			
 			map.populate();
-//			Path testPath = new Path();
-//			testPath.addSquare(new GridSquare(map,0,0,false));
-//			testPath.addSquare(new GridSquare(map,1,0,false));
-//			testPath.addSquare(new GridSquare(map,0,0,false));
-//			testPath.addSquare(new GridSquare(map,0,1,false));
-//			testPath.addSquare(new GridSquare(map,0,0,false));
 			display.setDisplay("ODOMETER");
-			display.setDisplay("NONE");
+			display.setDisplay("OFF");
+			display = null;
 			LCD.clear();
-//			PathTravel pt = new PathTravel(0,0,"N",nav,testPath);
-//			pt.travelPath();
+
 			Localizer localizer = new Localizer(map,odometer,nav,usController);
 			localizer.run();
 			clawCS.setFloodlight(Color.GREEN);
@@ -239,25 +290,32 @@ public class Simon {
 			int y = localizer.getY();
 			String o = localizer.getO();
 			localizer = null;
-			//LCD.clear();
-			//LCD.drawInt(localizer.getX(), 0, 0);
-			//LCD.drawInt(localizer.getY(), 0, 2);
 			Pathfinder pf = new Pathfinder(map,map.getSquare(2, 1),map.getSquare(x, y));
 			
 			pf.genPath();
+			map.reInitialize();
 			clawCS.setFloodlight(Color.RED);
 			PathTravel pt = new PathTravel(x,y,o,nav,pf.getPath());
 			pt.travelPath();
 			pt.faceWest();
-			
+			blockPickUp bp = new blockPickUp(claw,leftMotor,rightMotor, usController);
+			bp.scanRange();
 			try {
 				Thread.sleep(1500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			bp.scanRange();
-
+			//bp.scanRange();
+			bp = null;
+			clawCS.setFloodlight(Color.GREEN);
+			pf = new Pathfinder(map,map.getSquare(dropX, dropY),map.getSquare(2, 1));
+			pf.genPath();
+			clawCS.setFloodlight(Color.RED);
+			pt = new PathTravel(2,1,"E",nav,pf.getPath());
+			pt.travelPath();
+			claw.open();
+			nav.BBBACKDATASSUP();
 		}
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);

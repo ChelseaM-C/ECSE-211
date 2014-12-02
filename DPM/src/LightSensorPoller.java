@@ -1,6 +1,4 @@
 import lejos.nxt.ColorSensor;
-import lejos.nxt.UltrasonicSensor;
-import lejos.robotics.Color;
 
 
 public class LightSensorPoller extends Thread{

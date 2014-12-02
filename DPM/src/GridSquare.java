@@ -29,6 +29,10 @@ public class GridSquare {
 	/**
 	 * For pathfinding, calling this will set the node to visited status
 	 */
+	
+	public void reInit(){
+		visited = false;
+	}
 	public void visit(){
 		visited = true;
 	}

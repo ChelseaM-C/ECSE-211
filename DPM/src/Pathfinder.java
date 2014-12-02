@@ -1,6 +1,5 @@
 import java.io.File;
 import java.util.ArrayList;
-
 import lejos.nxt.LCD;
 
 /**This class generates a Path when given a start, destination, and map.
@@ -13,8 +12,6 @@ public class Pathfinder {
 	
 	private Path path;
 	
-	private Map map;
-	
 	private GridSquare destination,start;
 	/**
 	 * 
@@ -23,7 +20,6 @@ public class Pathfinder {
 	 * @param start Starting GridSquare
 	 */
 	public Pathfinder(Map map, GridSquare destination, GridSquare start){
-		this.map = map;
 		this.destination = destination;
 		this.start = start;
 		this.paths = new ArrayList<Path>();
@@ -33,7 +29,11 @@ public class Pathfinder {
 		start.visit();
 	}
 	
-	
+	private int idealLen(){
+		int len = 0;
+		len = (Math.abs(destination.getX() - start.getX()) + Math.abs(destination.getY() - start.getY()));
+		return len;
+	}
 	private int validCount(){
 		int count = 0;
 		for(Path p : paths){
@@ -53,25 +53,39 @@ public class Pathfinder {
 		boolean completed = false;
 		while(!completed){
 			for(Path p : paths){
-				for(GridSquare g : p.getEnd().getSquares()){
-					if(!g.isVisited()){
-						LCD.clear();
-						counter++;
-						Path newPath = new Path();
-						newPath = p.clone();
-						newPath.addSquare(g);
-						g.visit();
-						temp.add(newPath);
-						LCD.drawInt(counter, 0, 0);
+				
+				if(p != null){
+					int gCounter = 0;
+					for(GridSquare g : p.getEnd().getSquares()){
+						if(!g.isVisited()){
+							gCounter++;
+							LCD.clear();
+							counter++;
+							Path newPath = new Path();
+							newPath = p.clone();
+							newPath.addSquare(g);
+							if(newPath.getSquares().size() <= idealLen() + 5){
+								
+							}
+							g.visit();
+							temp.add(newPath);
+							LCD.drawInt(counter, 0, 0);
+							LCD.drawInt(File.freeMemory(), 0, 1);
+						}
 					}
-				}
-				if(p.getEnd().getX() == destination.getX() && p.getEnd().getY() == destination.getY()){
-					this.path = p;
-					completed = true;
-					
+
+					if(p.getEnd().getX() == destination.getX() && p.getEnd().getY() == destination.getY()){
+						this.path = p;
+						completed = true;
+						
+					}
+					else if(true){
+						p = null;
+					}
 				}
 			}
 			paths.addAll(temp);
+			temp.clear();
 		}
 	}
 	/**

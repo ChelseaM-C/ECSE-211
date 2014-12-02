@@ -27,8 +27,6 @@ public class Localizer {
 
 	private Navigation nav;
 
-	private Map map;
-
 	private ArrayList<Ghost> ghosts;
 
 	private UltrasonicController controller;
@@ -46,7 +44,6 @@ public class Localizer {
 	 *            the ultrasonic Controller
 	 */
 	public Localizer(Map map, Odometer odo, Navigation nav, UltrasonicController uc) {
-		this.map = map;
 		running = true;
 		this.nav = nav;
 		this.odo = odo;
@@ -209,6 +206,9 @@ public class Localizer {
 //					odo.setTheta(3 * (Math.PI / 2));
 //					thet = 3 * Math.PI / 2;
 //				}
+			}
+			else{
+				g = null;
 			}
 		}
 

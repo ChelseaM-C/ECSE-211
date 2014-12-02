@@ -25,6 +25,14 @@ public class Map {
 		grid = new ArrayList<ArrayList<GridSquare>>();
 	}
 	
+	public void reInitialize(){
+		for(ArrayList<GridSquare> row : grid){
+			for(GridSquare s : row){
+				s.reInit();
+			}
+		}
+	}
+	
 	/**Sets the walls of the map
 	 * 
 	 * @param walls 2D bool array, true represents the walls

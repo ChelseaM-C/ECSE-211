@@ -1,4 +1,3 @@
-import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 
 /**This is the Ultrasonic Poller class, which will read data from the sensor at given intervals

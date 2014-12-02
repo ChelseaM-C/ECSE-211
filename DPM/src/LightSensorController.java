@@ -5,8 +5,6 @@
  */
 public class LightSensorController {
         private LightSensorPoller poller;
-        private int value;
-       
         public LightSensorController(LightSensorPoller p){
                 this.poller = p;
         }
