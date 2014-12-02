@@ -184,6 +184,7 @@ public class blockPickUp extends Thread {
      * Calculate the distance for motor's rotation
      * @return distance
      */
+    
     private static int convertDistance(double radius, double distance) {
         return (int) ((180.0 * distance) / (Math.PI * radius));
     }

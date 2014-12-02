@@ -2,14 +2,10 @@ import lejos.nxt.*;
  
    public class FindLine extends Thread{
  
-    //-------------------------------------------------------------------------------//
-    //        Robot Constants                                                             //
-    //-------------------------------------------------------------------------------//
- 
     /**
-     * Left Light Sensor
+     *  Light Sensor
      */
-    protected LightSensorPoller left;
+    protected LightSensorPoller lightSensor;
  
  
  
@@ -17,27 +13,28 @@ import lejos.nxt.*;
      * The integer time period in milliseconds of the LineFinder update cycle.
      * @value
      */
-    protected static final int PERIOD = 25;
+    protected static final int PERIOD = 12;
  
     /**
      * Light Sensor value threshold between regular floor and a black line.
      * @value
      */
     protected static final int THRESHOLD = -28;
+                ;    //derivative threshold
        
-        private int [] leftReadings = new int[4] ;     //{0, 0.0, 0.0, 0.0, 0.0};
+        private int [] readings = new int[4] ;     //{0, 0.0, 0.0, 0.0, 0.0};
  
        
-        private double derivativeLeft1 ;
-        private double derivativeLeft2 ;
+        private double derivative1 ;
+        private double derivative2 ;
        
         private boolean isline = false ;
  
  
        
-        public  FindLine( LightSensorPoller left) {
-            this.left = left;
-        //     this.right = right ;
+        public  FindLine( LightSensorPoller lightSensor) {
+            this.lightSensor = lightSensor;
+       
         }
        
         public void run()   {
@@ -46,39 +43,23 @@ import lejos.nxt.*;
        
              long updateStart, updateEnd;
              
-                leftReadings[0] = 0;
-                leftReadings[1]  =  0;
-                leftReadings[2]  =  0;
-                        leftReadings[3]  = 0;
+                readings[0] = 0;
+                readings[1]  =  0;
+                readings[2]  =  0;
+                        readings[3]  = 0;
  
                         LCD.clear();
                        
          while (true) {
                         updateStart = System.currentTimeMillis();
        
-                 leftReadings[3] = left.getLight();
+                 readings[3] = lightSensor.getLight();
  
                  this.update() ;
-                 this.isLine() ;
+     //  this.isLine() ;
                  updateEnd = System.currentTimeMillis();
                  this.beepLine() ;
-                 //Debug  
-                 
-//               LCD.drawString("0| "+leftReadings[0]+" 1| "+leftReadings[1] , 0, 0);
-//               LCD.drawString("2| "+leftReadings[2]+" 3| "+leftReadings[3] , 0, 1);
-//               
-////             LCD.drawString("0| "+rightReadings[0]+" 1| "+rightReadings[1] , 0, 2);
-////             LCD.drawString("2| "+rightReadings[2]+" 3| "+rightReadings[3], 0, 3);
-//               
-//               LCD.drawString("D1| "+derivativeLeft1+" D2"+derivativeLeft2 , 0, 3);
-//               LCD.drawString("D3| "+derivativeLeft3, 0, 4);
-//               
-//               LCD.drawString("Delta| "+(derivativeLeft2 - derivativeLeft1), 0, 5);
-//               LCD.drawString("Time| "+((updateEnd - updateStart)/1000), 0, 6);
-//               
-////             LCD.drawString("D1| "+derivativeRight1+" D2"+derivativeRight2 , 0, 6);
-////             LCD.drawString("D3| "+derivativeRight3, 0, 7);
-////             
+ 
                  
                         if (updateEnd - updateStart < PERIOD) {
                                 try {
@@ -95,15 +76,17 @@ import lejos.nxt.*;
             }
                
            public boolean isLine( ) {
+                   
+                   
         //derivative
-           derivativeLeft1 =  (leftReadings[1] - leftReadings[0]);
-           derivativeLeft2 =   (leftReadings[2] - leftReadings[1]) ;
+           derivative1 =  (readings[1] - readings[0]);
+           derivative2 =   (readings[2] - readings[1]) ;
  
  
-         
-             if(derivativeLeft1 == 0 ||leftReadings[0] ==0 || leftReadings[1] == 0 ||  leftReadings[2] == 0  || leftReadings[3] == 0 ){ return false;}
+         //do not detect a line at the begining when the array has been initialized to 0
+             if(readings[0] ==0 || readings[1] == 0 ||  readings[2] == 0  || readings[3] == 0 ){ return false;}
            
-             if ( (derivativeLeft2 - derivativeLeft1) <  THRESHOLD ) {     //if value started dropping
+             if ( (derivative2 - derivative1) <  THRESHOLD ) {     //if value started dropping
                  
                  isline = true;
                  return true ;
@@ -120,21 +103,24 @@ import lejos.nxt.*;
                  
                         // moving window : reading 0, reading 1 , reading 2 , reading 3
                
-                        leftReadings[0]  =  leftReadings[1] ;
-                leftReadings[1]  =  leftReadings[2] ;
-                leftReadings[2]  = leftReadings[3] ;
-//                      leftReadings[3]  = leftReadings[4] ;
+                        readings[0]  =  readings[1] ;
+                readings[1]  =  readings[2] ;
+                readings[2]  = readings[3] ;  
                        
            }
        
            public void beepLine()  {
               if ( isline ) {  
-                  //Sound.beep() ;
+                  Sound.beep() ;
                  
               }
              
               }
-       
-            public boolean line() { return isline ;}
+           public void setlightToFalse()  {
+                 
+                        this.isline =false ;  
+                       
+           }
+           
        
            }
