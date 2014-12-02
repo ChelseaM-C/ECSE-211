@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Stack;
      
 
+
     import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.Sound;
@@ -25,16 +26,20 @@ import lejos.nxt.UltrasonicSensor;
             private boolean navigating,line;
             public Stack<Waypoint> waypoints;
             
+            private FindLine left,right;
+            
             private CorrectionAngel angel;
      
            
             //Constructor
-            public Navigation(double x, double y, Odometer odometer, WheelDriver driver){
+            public Navigation(double x, double y, Odometer odometer, WheelDriver driver,FindLine left, FindLine right){
                     this.x = odometer.getX();
                     this.y = odometer.getY();
                     theta = odometer.getTheta();
                     line = false;
                    
+                    this.left = left;
+                    this.right = right;
                     this.driver = driver;
                    
                     waypoints = new Stack<Waypoint>();
@@ -231,18 +236,20 @@ import lejos.nxt.UltrasonicSensor;
             }
             
             public void testTile(){
-            	angel.toggle();
+            	angel = new CorrectionAngel(this.odometer,null,null,null,left,right, this);
+            	angel.start();
+            	//angel.toggle();
             	odometer.setTheta(0);
             	oneTileForward();
-            	while(line == false){
-                	if(line){
-                		angel.toggle();
-                		break;
-                	}
-            	}
+//            	while(line == false){
+//                	if(line){
+//                		angel.toggle();
+//                		break;
+//                	}
+//            	}
             	
-            	if(odometer.getTheta() != 0){
-            		
+            	if(line){
+            		//angel.toggle();
             		odometer.pauseTheta();
             		correct();
             		odometer.pauseTheta();
@@ -278,8 +285,8 @@ import lejos.nxt.UltrasonicSensor;
                             Motor.A.setSpeed(FORWARD_SPEED);
                             Motor.B.setSpeed(FORWARD_SPEED - speedDifference);
      
-                            Motor.A.rotate(convertDistance(leftRadius, 30.24), true);
-                            Motor.B.rotate(convertDistance(rightRadius, 30.24), false);
+                            Motor.A.rotate(convertDistance(leftRadius, 30.24 + 2), true);
+                            Motor.B.rotate(convertDistance(rightRadius, 30.24 + 2), false);
             }
             public void turnAround(){
 				Motor.A.setAcceleration(500);

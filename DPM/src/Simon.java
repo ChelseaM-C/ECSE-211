@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.Random;
 
 import lejos.nxt.Button;
 import lejos.nxt.ColorSensor;
@@ -6,8 +7,8 @@ import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
-import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
+import lejos.robotics.Color;
 
 
 public class Simon {
@@ -16,17 +17,48 @@ public class Simon {
 		
 
 		
-		boolean[][] walls1 = {{false,false,false,false,false,true,false,false},{false,false,false,false,false,false,false,true},{false,false,false,false,true,false,true,true}
+		boolean[][] walls7 = {{false,false,false,false,false,true,false,false},{false,false,false,false,false,false,false,true},{false,false,false,false,true,false,true,true}
 		,{false,false,false,false,false,true,false,false},{false,true,true,true,false,false,false,false},{false,false,false,false,false,false,false,false},{false,false,true,false,false,true,false,false},
 		{true,false,true,true,false,false,true,false}};
-	
-		boolean[][] walls2 = {{false,false,false,false,false,true,false,false},{false,false,false,false,false,false,true,false},{true,false,false,true,true,false,false,false}
-		,{false,true,false,false,false,false,false,true},{false,false,false,false,true,false,true,true},{true,false,false,false,false,false,false,false},{false,false,false,false,false,false,false,false},
-		{true,true,false,false,false,false,true,true}};
 		
-		boolean[][] walls3 = {{false,false,false,false,false,false,false,true},{false,false,false,false,false,false,false,false},{false,false,false,true,false,false,true,false}
-		,{false,false,true,true,true,false,true,false},{true,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false},{false,false,false,false,true,false,false,false},
-		{true,false,false,false,true,false,true,false}};
+		boolean[][] walls1 = {{true,true,false,false,false,false,true,false,false,true,false,false},
+				{true,true,false,true,false,false,false,false,false,false,false,false},
+				{false,false,true,false,false,false,false,false,false,false,false,true},
+				{false,false,false,false,false,true,false,false,false,false,true,false},
+				{false,false,false,false,true,false,false,true,false,false,false,false},
+				{true,false,true,false,false,false,false,false,false,false,false,false},
+				{false,false,false,true,false,false,false,false,false,false,false,false},
+				{false,false,false,false,false,false,false,true,false,false,false,false},
+				{true,true,false,false,false,false,true,false,false,false,false,false},
+				{false,false,false,false,true,false,false,true,false,true,false,false},
+				{false,false,true,false,false,false,true,false,false,false,false,false},
+				{false,true,false,false,false,false,false,false,false,false,false,false}};	
+		
+		boolean[][] walls2 = {{true,true,false,false,true,true,false,false,false,false,false,false},
+				{true,true,false,false,false,false,false,false,false,false,false,false},
+				{false,false,false,false,false,false,false,false,false,false,false,false},
+				{false,false,true,false,false,true,true,false,false,true,false,false},
+				{false,false,false,false,false,true,false,false,false,true,true,false},
+				{false,false,false,false,false,true,false,false,false,false,false,false},
+				{false,false,false,false,false,false,false,false,true,true,false,false},
+				{true,false,false,false,false,false,false,false,false,false,false,false},
+				{false,false,false,false,true,true,false,false,false,false,true,false},
+				{false,true,false,false,false,false,false,false,false,false,false,true},
+				{false,false,false,false,false,false,false,true,false,false,false,false},
+				{false,false,true,false,false,true,false,false,true,false,false,false}};
+		
+		boolean[][] walls3 = {{true,true,false,true,false,false,false,false,true,false,false,false},
+				{true,true,false,false,false,false,false,false,false,false,false,false},
+				{false,false,false,true,false,false,true,false,false,false,false,false},
+				{false,false,true,false,true,false,false,false,false,false,true,false},
+				{false,true,false,false,false,true,true,true,false,false,false,false},
+				{false,false,false,false,false,false,false,false,false,false,false,false},
+				{false,false,false,false,false,false,true,false,true,false,false,false},
+				{true,false,false,false,false,false,false,false,false,false,false,true},
+				{false,false,false,false,false,false,false,false,false,false,false,false},
+				{false,false,false,false,false,false,true,false,false,false,false,false},
+				{true,false,false,true,true,false,false,false,false,true,false,false},
+				{false,false,true,false,false,false,false,false,false,false,false,true}};
 		
 		//Other three maps.
 		boolean[][] walls4 = {{false,false,false,false,false,false,false,true},{false,false,false,false,false,false,false,false},{false,false,false,true,false,false,true,false}
@@ -38,19 +70,7 @@ public class Simon {
 		boolean[][] walls6 = {{false,false,false,false,false,false,false,true},{false,false,false,false,false,false,false,false},{false,false,false,true,false,false,true,false}
 		,{false,false,true,true,true,false,true,false},{true,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false},{false,false,false,false,true,false,false,false},
 		{true,false,false,false,true,false,true,false}};
-		
-		boolean[][] walls7 = {{false,false,false,false,false,false,true,false,false,true,false,false},
-				{false,false,false,true,false,false,false,false,false,false,false,false},
-				{false,false,true,false,false,false,false,false,false,false,false,true},
-				{false,false,false,false,false,true,false,false,false,false,true,false},
-				{false,false,false,false,true,false,false,true,false,false,false,false},
-				{true,false,true,false,false,false,false,false,false,false,false,false},
-				{false,false,false,true,false,false,false,false,false,false,false,false},
-				{false,false,false,false,false,false,false,true,false,false,false,false},
-				{true,true,false,false,false,false,true,false,false,false,false,false},
-				{false,false,false,false,true,false,false,true,false,true,false,false},
-				{false,false,true,false,false,false,true,false,false,false,false,false},
-				{false,true,false,false,false,false,false,false,false,false,false,false}};
+
 		
 		
 		
@@ -67,6 +87,9 @@ public class Simon {
 		ColorSensor rightCS = new ColorSensor(SensorPort.S2);
 		ColorSensor leftCS = new ColorSensor(SensorPort.S3);
 		ColorSensor clawCS = new ColorSensor(SensorPort.S4);
+		//clawCS.setFloodlight(true);
+		
+		Random rand = new Random();
 		LightSensorPoller rightPoll = new LightSensorPoller(rightCS);
 		LightSensorController rightCSControl = new LightSensorController(rightPoll);
 		LightSensorPoller leftPoll = new LightSensorPoller(leftCS);
@@ -79,7 +102,7 @@ public class Simon {
 		//Odometer Initialization
 		Odometer odometer = new Odometer();
 		//Initialize map, localization, and navigation.
-		Navigation nav = new Navigation(0,0,odometer, wheels);
+		Navigation nav = new Navigation(0,0,odometer, wheels,lineLeft,lineRight);
 		CorrectionAngel correction = new CorrectionAngel(odometer, leftCSControl, rightCSControl,wheels, lineLeft, lineRight, nav);
 		LCDDisplay display = new LCDDisplay(odometer);
 		
@@ -104,17 +127,13 @@ public class Simon {
 		display.setDisplay(String.valueOf(mapID));
 		display.start();
 		while(true) {
+
+			clawCS.setFloodlight(Color.RED);
 			
 			// clear the display
 			LCD.clear();
 			
 			
-//			// ask the user whether the motors should drive in a square or float
-//			LCD.drawString("< Left | Right >", 0, 0);
-//			LCD.drawString("       |        ", 0, 1);
-//			LCD.drawString("  Path | Drive  ", 0, 2);
-//			LCD.drawString("       |        ", 0, 3);
-//			LCD.drawString("       |        ", 0, 4);
 
 			buttonChoice = Button.waitForAnyPress();
 			if(buttonChoice == Button.ID_ENTER){
@@ -136,55 +155,23 @@ public class Simon {
 		}
 
 		if (buttonChoice == Button.ID_LEFT) {
-			LCD.clear();
-			LCD.drawInt(mapID, 0, 0);
-			//claw.close();
-			//claw.open();
-			
-			//odometer.setX(15);
-			//odometer.setY(15);
-			//correction.start();
 
-			
-			//nav.travelPath(testPath);
 
 		} 
 		else if(buttonChoice == Button.ID_RIGHT) {
-			//display.start();
-			//nav.travelTo(new Waypoint(30,0));
-			//nav.turnTo(Math.PI/2);
-			//nav.travelTo(new Waypoint(30,30));
-			//nav.travelTo(new Waypoint(0,30));
-			//nav.travelTo(new Waypoint(0,0));
-			//nav.turnTo(Math.PI);
-			//nav.travelTo(30, 30);
-			//nav.travelTo(0, 30);
-			//nav.waypoints.push(new Waypoint(10,0));
+
 			
 		}
 		else{
 			blockPickUp bp = new blockPickUp(claw,leftMotor,rightMotor, usController);
 			odometer.start();
-			correction.start();
+			//correction.start();
 			nav.setAngel(correction);
 			Map map = new Map(8,1);
 			if(mapID == 1){
+				clawCS.setFloodlight(Color.BLUE);
 				display.setDisplay("ODOMETER");
-				//nav.testTile();
-				//nav.testTile();
-				nav.turnAround();
-				nav.testTile();
-				nav.testTile();
-				try {
-					Thread.sleep(100000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				System.exit(69);
 				map.addWalls(walls1);
-
-				//nav.testTile();
 				
 			}
 			else if(mapID == 2){
@@ -204,15 +191,13 @@ public class Simon {
 				
 			}
 			
+			//Memory tester
 			else if(mapID == 7){
 				display.setDisplay("NONE");
 				LCD.clear();
 				map = new Map(12,1);
 				map.addWalls(walls7);
 				map.populate();
-				
-				//Pathfinder PATHGENEH8TR = new Pathfinder(map,map.getSquare(1, 2),map.getSquare(11,11));
-				//PATHGENEH8TR.genPath();
 				Pathfinder pf = new Pathfinder(map,map.getSquare(1, 2),map.getSquare(11, 11));
 				pf.genPath();
 				map = new Map(12,1);
@@ -232,31 +217,32 @@ public class Simon {
 				System.exit(69);
 				
 			}
+
 			map.populate();
-			Path testPath = new Path();
-			testPath.addSquare(new GridSquare(map,0,0,false));
-			testPath.addSquare(new GridSquare(map,1,0,false));
-			testPath.addSquare(new GridSquare(map,0,0,false));
-			testPath.addSquare(new GridSquare(map,0,1,false));
-			testPath.addSquare(new GridSquare(map,0,0,false));
+//			Path testPath = new Path();
+//			testPath.addSquare(new GridSquare(map,0,0,false));
+//			testPath.addSquare(new GridSquare(map,1,0,false));
+//			testPath.addSquare(new GridSquare(map,0,0,false));
+//			testPath.addSquare(new GridSquare(map,0,1,false));
+//			testPath.addSquare(new GridSquare(map,0,0,false));
 			display.setDisplay("ODOMETER");
-			
-			PathTravel pt = new PathTravel(0,0,"N",nav,testPath);
-			//pt.moveNorth();
-			//pt.moveEast();
-			pt.travelPath();
-			//display.start();
+			display.setDisplay("NONE");
+			LCD.clear();
+//			PathTravel pt = new PathTravel(0,0,"N",nav,testPath);
+//			pt.travelPath();
 			Localizer localizer = new Localizer(map,odometer,nav,usPoller);
 			localizer.run();
-			//localizer.setOdo();
+			clawCS.setFloodlight(Color.GREEN);
+			
+			
+			LCD.drawInt(localizer.getX(), 0, 0);
+			LCD.drawInt(localizer.getY(), 0, 2);
 			Pathfinder pf = new Pathfinder(map,map.getSquare(1, 2),map.getSquare(localizer.getX(), localizer.getY()));
+			clawCS.setFloodlight(Color.BLUE);
 			pf.genPath();
-			
-			
-//			odometer.setX(localizer.getX()*30 + 15);
-//			odometer.setY(localizer.getY() * 30 + 15);
-//			odometer.setTheta(localizer.thet);
-//			localizer.setOdo();
+			clawCS.setFloodlight(Color.RED);
+			PathTravel pt = new PathTravel(localizer.getX(),localizer.getY(),localizer.getO(),nav,pf.getPath());
+			pt.travelPath();
 
 			try {
 				Thread.sleep(1500);
@@ -264,12 +250,7 @@ public class Simon {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//leftMotor.flt();
-			//rightMotor.flt();
-			//localizer.setOdo();
-			//correction.start();
-			//nav.travelPath(pf.getPath());
-			//bp.scanRange();
+
 
 		}
 		

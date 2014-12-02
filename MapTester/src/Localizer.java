@@ -95,28 +95,6 @@ public class Localizer extends Thread{
 					}
 				}
 			}
-			else if(robot.wallinFront() == 2){
-				wall2();
-				if(turncount >= 3){
-					turncount = 0;
-					//thresh++;
-					robot.turnLeft();
-					for(Ghost g : ghosts){
-						if(g.isValid()){
-							g.turnLeft();
-						}
-					}
-				}
-				else{
-					turncount++;
-					robot.move();
-					for(Ghost g : ghosts){
-						if(g.isValid()){
-							g.move();
-						}
-					}
-				}
-			}
 			else{
 				
 				noWall();

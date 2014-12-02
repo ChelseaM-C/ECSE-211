@@ -16,8 +16,8 @@ public class MapTester {
 		boolean[][] walls3 = {{false,false,false,false,false,false,false,true},{false,false,false,false,false,false,false,false},{false,false,false,true,false,false,true,false}
 		,{false,false,true,true,true,false,true,false},{true,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false},{false,false,false,false,true,false,false,false},
 		{true,false,false,false,true,false,true,false}};
-		boolean[][] walls7 = {{false,false,false,false,false,false,true,false,false,true,false,false},
-				{false,false,false,true,false,false,false,false,false,false,false,false},
+		boolean[][] walls7 = {{true,true,false,false,false,false,true,false,false,true,false,false},
+				{true,true,false,true,false,false,false,false,false,false,false,false},
 				{false,false,true,false,false,false,false,false,false,false,false,true},
 				{false,false,false,false,false,true,false,false,false,false,true,false},
 				{false,false,false,false,true,false,false,true,false,false,false,false},
@@ -68,6 +68,7 @@ public class MapTester {
 			}
 		}
 		
+		
 		Path testPath = new Path();
 		testPath.addSquare(new GridSquare(map,0,0,false));
 		testPath.addSquare(new GridSquare(map,1,0,false));
@@ -77,22 +78,28 @@ public class MapTester {
 		testPath.addSquare(new GridSquare(map,2,3,false));
 		//System.out.println(testPath.toString());
 		
-		Pathfinder jerry = new Pathfinder(map,map.getSquare(0, 0),map.getSquare(11, 11));
+//		Pathfinder jerry = new Pathfinder(map,map.getSquare(0, 0),map.getSquare(11, 11));
+//		jerry.genPath();
+//		Path ps = jerry.getPath();
+//		for(Waypoint point : ps.getPoints()){
+//			//System.out.println(point.getX() + "," + point.getY());
+//		}
+//		System.out.println(jerry.getPath().toString());
+		
+		Ghost robot = new Ghost(11,0,"E",map);
+		//robot.turn()
+		
+		Localizer loc = new Localizer(map,robot);
+		loc.run();
+		System.out.println(robot.getX() + " , " + robot.getY() + " , " + robot.getOrientation() + " , " + robot.wallinFront());
+		//System.out.println(map.getSquare(0, 6).isWall());
+		Pathfinder jerry = new Pathfinder(map,map.getSquare(1, 2),map.getSquare(robot.getX(),robot.getY()));
 		jerry.genPath();
 		Path ps = jerry.getPath();
 		for(Waypoint point : ps.getPoints()){
 			//System.out.println(point.getX() + "," + point.getY());
 		}
 		System.out.println(jerry.getPath().toString());
-		
-		Ghost robot = new Ghost(5,2,"N",map);
-		//robot.turn()
-		
-		//Localizer loc = new Localizer(map,robot);
-		//loc.run();
-		//System.out.println(robot.getX() + " , " + robot.getY() + " , " + robot.getOrientation() + " , " + robot.wallinFront());
-		//System.out.println(map.getSquare(0, 6).isWall());
-
 		//System.out.println(loc.numValid());
 		for(Ghost goul : gs){
 			//System.out.println(goul.getX() + " , " + goul.getY() + " , " + goul.getOrientation() + " , " + goul.wallinFront());
