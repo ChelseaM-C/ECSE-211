@@ -1,6 +1,6 @@
 /**The controller class that takes data from the poller, and filters the data.
  *
- * @author Daniel
+ * @author DMP team 4
  *
  */
 public class LightSensorController {
