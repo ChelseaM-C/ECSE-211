@@ -2,7 +2,7 @@ import lejos.nxt.NXTRegulatedMotor;
 
 /**Controls the opening and closing of the claw
  * 
- * @author Daniel
+ * @author DPM team4
  *
  */
 public class ClawDriver {

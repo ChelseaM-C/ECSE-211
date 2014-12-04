@@ -1,5 +1,9 @@
 import lejos.nxt.*;
-
+/**
+ * Light sensor controller/filter
+ * @author DMP TEAM 4
+ *
+ */
 public class FindLine extends Thread {
 
 	// -------------------------------------------------------------------------------//
@@ -36,7 +40,9 @@ public class FindLine extends Thread {
 		this.left = left;
 		// this.right = right ;
 	}
-
+	/**
+	 * Thread runnable, invoke with .start();
+	 */
 	public void run() {
 
 		long updateStart, updateEnd;
@@ -95,7 +101,10 @@ public class FindLine extends Thread {
 		}
 
 	}
-
+	/**Calculates and return whether or not a line is detected
+	 * 
+	 * @return current value of line underneath sensor
+	 */
 	public boolean isLine() {
 		// derivative
 		derivativeLeft1 = (leftReadings[1] - leftReadings[0]);
@@ -123,7 +132,7 @@ public class FindLine extends Thread {
 
 	}
 
-	public void update() {
+	private void update() {
 
 		// moving window : reading 0, reading 1 , reading 2 , reading 3
 
@@ -134,14 +143,17 @@ public class FindLine extends Thread {
 
 	}
 
-	public void beepLine() {
+	private void beepLine() {
 		if (isline) {
 			// Sound.beep() ;
 
 		}
 
 	}
-
+	/**
+	 * returns result from isLine()
+	 * @return isLine() no calculations
+	 */
 	public boolean line() {
 		return isline;
 	}

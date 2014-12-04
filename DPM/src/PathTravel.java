@@ -1,4 +1,8 @@
-
+/**
+ * Travels w/out use of odometer
+ * @author DPM TEAM 4
+ *
+ */
 public class PathTravel {
 	/*     N    
 	 *     |
@@ -10,6 +14,14 @@ public class PathTravel {
 	private String orientation;
 	private Navigation navi;
 	private Path path;
+	/**
+	 * 
+	 * @param x starting x
+	 * @param y starting y
+	 * @param o starting orientation
+	 * @param n navigator
+	 * @param p the path to travel
+	 */
 	public PathTravel(int x,int y, String o, Navigation n,Path p){
 		this.x = x;
 		this.y = y;
@@ -17,7 +29,9 @@ public class PathTravel {
 		orientation = o;
 		navi = n;
 	}
-	
+	/**
+	 * Moves north one tile
+	 */
 	public void moveNorth(){
 		y++;
 		if(orientation.equals("N")){
@@ -38,6 +52,9 @@ public class PathTravel {
 		}
 		orientation = "N";
 	}
+	/**
+	 * moves south one tile
+	 */
 	public void moveSouth(){
 		y--;
 		if(orientation.equals("S")){
@@ -58,6 +75,9 @@ public class PathTravel {
 		}
 		orientation = "S";
 	}
+	/**
+	 * moves east one tile
+	 */
 	public void moveEast(){
 		x++;
 		if(orientation.equals("E")){
@@ -78,6 +98,9 @@ public class PathTravel {
 		}
 		orientation = "E";
 	}
+	/**
+	 * moves west one tile
+	 */
 	public void moveWest(){
 		x--;
 		if(orientation.equals("W")){
@@ -99,7 +122,7 @@ public class PathTravel {
 		orientation = "W";
 	}
 	
-	public String getNext(GridSquare next){
+	private String getNext(GridSquare next){
 		String mov = "";
 		if(next.getY() == y+1 && next.getX() == x){
 			mov = "N";
@@ -115,11 +138,16 @@ public class PathTravel {
 		}
 		return mov;
 	}
-	
+	/**
+	 * Sets a new path
+	 * @param pat new path to travel
+	 */
 	public void setPath(Path pat){
 		this.path = pat;
 	}
-	
+	/**
+	 * moves the robot through the path
+	 */
 	public void travelPath(){
 		for(int i = 0; i < path.getSquares().size(); i++){
 			String next = getNext(path.getSquares().get(i));
@@ -137,7 +165,9 @@ public class PathTravel {
 			}
 		}
 	}
-
+	/**
+	 * faces robot west
+	 */
 	public void faceWest() {
 		if(orientation.equals("W")){
 			navi.testTile();

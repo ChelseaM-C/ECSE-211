@@ -1,4 +1,7 @@
 import lejos.nxt.LCD;
+/**
+ * NOT USED
+ */
 import lejos.nxt.Sound;
 public class OdometryCorrection extends Thread{
 	private Odometer odo;

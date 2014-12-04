@@ -14,8 +14,8 @@ public class Localizer {
 
 	boolean running;
 
-	int gridx, gridy, turncount;
-
+	int gridx, gridy, turncount,startX,startY;
+	String startO;
 	private static final int WALL = 30;
 	private static final int WALL2 = 50;
 	
@@ -74,7 +74,7 @@ public class Localizer {
 		return running;
 	}
 	
-	public int numValid(){
+	private int numValid(){
 		int num = 0;
 		for(Ghost g : ghosts){
 			if(g.isValid()){
@@ -84,7 +84,7 @@ public class Localizer {
 		return num;
 	}
 	
-	public void noWall(){
+	private void noWall(){
 		for(Ghost g: ghosts){
 			if(g.wallinFront() != 0){
 				g.invalid();
@@ -92,7 +92,7 @@ public class Localizer {
 		}
 	}
 	
-	public void wall(){
+	private void wall(){
 		for(Ghost g : ghosts){
 			if(g.wallinFront() == 0){
 				g.invalid();
@@ -100,7 +100,7 @@ public class Localizer {
 		}
 	}
 	
-	public void wall2(){
+	private void wall2(){
 		for(Ghost g : ghosts){
 			if(g.wallinFront() != 2){
 				g.invalid();
@@ -185,6 +185,9 @@ public class Localizer {
 				LCD.clear();
 				gridx = g.getX();
 				gridy = g.getY();
+				startX = g.getStartX();
+				startY = g.getStartY();
+				startO = g.getStartO();
 				orientation = g.getOrientation();
 				LCD.drawInt(g.getStartX(), 0, 0);
 				LCD.drawInt(g.getStartY(), 0, 2);
@@ -216,24 +219,49 @@ public class Localizer {
 		running = false;
 	}
 
-	public void setOdo() {
-		double[] arr = { (gridx * 30 + 15), (gridy * 30 + 15), thet };
-		boolean[] arr2 = { true, true, true };
-		odo.setPosition(arr, arr2);
-		// odo.setX(gridx*30 + 15);
-		// odo.setY(gridy* 30 + 15);
-		// odo.setTheta(thet);
-	}
 
+	/**
+	 * 
+	 * @return grid X position
+	 */
 	public int getX() {
 		return gridx;
 	}
-
+	/**
+	 * 
+	 * @return grid y position
+	 */
 	public int getY() {
 		return gridy;
 	}
-	
+	/**
+	 * 
+	 * @return orientation
+	 */
 	public String getO(){
 		return orientation;
+	}
+	/**
+	 * 
+	 * @return start x
+	 */
+	public int getStartX() {
+		// TODO Auto-generated method stub
+		return startX - 1;
+	}
+	/**
+	 * 
+	 * @return start Y
+	 */
+	public int getStartY() {
+		// TODO Auto-generated method stub
+		return startY - 1;
+	}
+	/**
+	 * 
+	 * @return start orientation
+	 */
+	public String getStartO(){
+		return startO;
 	}
 }

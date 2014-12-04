@@ -33,13 +33,6 @@ public class blockPickUp extends Thread {
 
     /**
      * For scan the pick up area, if there is a block in front, claw closes and the robot goes back to the original coordinates
-     * @param threshold the maximum distance between the sensor and the object
-     * @param turnAngle interval of 10 degree
-     * @param storeI the index of array when the sensor detects a block
-     * @param storeW the number of repetition of scan
-     * @param loopBreak equals to 1 if exit the loop
-     * @param secondLap the number of trials
-     * @param leftRight the index of array when the block is on the left or right
      */
     public void scanRange() {
         int threshold = 20;

@@ -2,7 +2,11 @@
  * OdometryDisplay.java FROM LAB 2
  */
 import lejos.nxt.LCD;
-
+/**
+ * Derived from the display of LAB2, now has muliple screens
+ * @author DPM LAB 2/ DMP TEAM 4
+ *
+ */
 public class LCDDisplay extends Thread {
 	private static final long DISPLAY_PERIOD = 250;
 	private Odometer odometer;
@@ -24,7 +28,9 @@ public class LCDDisplay extends Thread {
 	public void setDisplay(String d){
 		display = d;
 	}
-	// run method (required for Thread)
+	/**
+	 * Main runnable function, invoke with .start();
+	 */
 	public void run() {
 		long displayStart, displayEnd;
 		double[] position = new double[3];

@@ -4,7 +4,7 @@ import lejos.nxt.LCD;
 
 /**This class generates a Path when given a start, destination, and map.
  * 
- * @author Daniel
+ * @author DPM TEAM 4
  *
  */
 public class Pathfinder {

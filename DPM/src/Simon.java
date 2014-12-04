@@ -4,10 +4,15 @@ import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.Color;
 
-
+/**
+ * MAIN RUNNING CLASS
+ * @author DPM Team 4
+ *
+ */
 public class Simon {
 	public static void main(String[] args) {
 		int buttonChoice;
@@ -126,7 +131,7 @@ public class Simon {
 		Odometer odometer = new Odometer();
 		//Initialize map, localization, and navigation.
 		Navigation nav = new Navigation(0,0,odometer, wheels,lineLeft,lineRight);
-		CorrectionAngel correction = new CorrectionAngel(odometer, leftCSControl, rightCSControl,wheels, lineLeft, lineRight, nav);
+		CorrectionAngel correction = new CorrectionAngel(odometer, lineLeft, lineRight, nav);
 		LCDDisplay display = new LCDDisplay(odometer);
 		
 		//Ultrasonic Initialization
@@ -220,6 +225,7 @@ public class Simon {
 			nav.setAngel(correction);
 			Map map = new Map(12,1);
 			if(mapID == 1){
+				Sound.beep();
 				map.addWalls(walls1);
 				walls1 = null;
 				walls2 = null;
@@ -229,6 +235,7 @@ public class Simon {
 				walls6 = null;
 			}
 			else if(mapID == 2){
+				Sound.twoBeeps();
 				map.addWalls(walls2);
 				walls1 = null;
 				walls2 = null;
@@ -238,6 +245,7 @@ public class Simon {
 				walls6 = null;
 			}
 			else if(mapID == 3){
+				Sound.buzz();
 				map.addWalls(walls3);
 				walls1 = null;
 				walls2 = null;
@@ -247,6 +255,7 @@ public class Simon {
 				walls6 = null;
 			}
 			else if(mapID == 4){
+				Sound.beepSequenceUp();
 				map.addWalls(walls4);
 				walls1 = null;
 				walls2 = null;
@@ -256,6 +265,7 @@ public class Simon {
 				walls6 = null;
 			}
 			else if(mapID == 5){
+				Sound.beepSequence();
 				map.addWalls(walls5);
 				walls1 = null;
 				walls2 = null;
@@ -265,6 +275,8 @@ public class Simon {
 				walls6 = null;
 			}
 			else if(mapID == 6){
+				Sound.twoBeeps();
+				Sound.buzz();
 				map.addWalls(walls6);
 				walls1 = null;
 				walls2 = null;
@@ -273,6 +285,16 @@ public class Simon {
 				walls5 = null;
 				walls6 = null;
 				
+			}
+			clawCS.setFloodlight(Color.RED);
+			LCD.clear();
+			LCD.drawInt(dropX, 0, 0);
+			LCD.drawInt(dropY,0,2);
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			clawCS.setFloodlight(Color.BLUE);
 			display.setDisplay("ODOMETER");
@@ -288,6 +310,9 @@ public class Simon {
 			clawCS.setFloodlight(Color.GREEN);
 			int x = localizer.getX();
 			int y = localizer.getY();
+			int startX = localizer.getStartX();
+			int startY = localizer.getStartY();
+			String startO = localizer.getStartO();
 			String o = localizer.getO();
 			localizer = null;
 			Pathfinder pf = new Pathfinder(map,map.getSquare(2, 1),map.getSquare(x, y));
@@ -316,6 +341,10 @@ public class Simon {
 			pt.travelPath();
 			claw.open();
 			nav.BBBACKDATASSUP();
+			LCD.clear();
+			LCD.drawInt(startX, 0, 0);
+			LCD.drawInt(startY, 0, 1);
+			LCD.drawString(startO, 0, 2);
 		}
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);

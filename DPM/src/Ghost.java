@@ -1,4 +1,8 @@
-
+/**Simulates a robot travelling through the map
+ * 
+ * @author DMP TEAM 4
+ *
+ */
 public class Ghost {
 	private int x,y,startX,startY;
 	private boolean valid;
@@ -17,15 +21,23 @@ public class Ghost {
 		startY = y;
 		startO = o;
 	}
-	
+	/**
+	 * Makes ghost not valid
+	 */
 	public void invalid(){
 		valid = false;
 	}
-	
+	/**
+	 * Return the validity of ghost
+	 * @return validity of ghost
+	 */
 	public boolean isValid(){
 		return valid;
 	}
-	
+	/**
+	 * The number of tiles untill a wall is in fron (0 for no walls in range)
+	 * @return wall location in fron of robot
+	 */
 	public int wallinFront(){
 		if(orientation.equals("N")){
 			if(map.getSquare(x, y+1) == null){
@@ -85,27 +97,52 @@ public class Ghost {
 		}
 		return 0;
 	}
-	
+	/**
+	 * 
+	 * @return starting x
+	 */
 	public int getStartX(){
 		return startX;
 	}
+	/**
+	 * 
+	 * @return starting y
+	 */
 	public int getStartY(){
 		return startY;
 	}
+	/**
+	 * 
+	 * @return starting orientation
+	 */
 	public String getStartO(){
 		return startO;
 	}
+	/**
+	 * 
+	 * @return current x 
+	 */
+	
 	public int getX(){
 		return x;
 	}
+	/**
+	 * 
+	 * @return current y
+	 */
 	public int getY(){
 		return y;
 	}
-	
+	/**
+	 * 
+	 * @return current orientation
+	 */
 	public String getOrientation(){
 		return orientation;
 	}
-	
+	/**
+	 * Moves the ghost one space in the direction its facing
+	 */
 	public void move(){
 		if(orientation.equals("N")){
 			y++;
@@ -120,7 +157,9 @@ public class Ghost {
 			x--;
 		}
 	}
-	
+	/**
+	 * Turns the ghost clockWise 90 degrees
+	 */
 	public void turn(){
 		if(orientation.equals("N")){
 			orientation = "E";
@@ -136,6 +175,9 @@ public class Ghost {
 		}
 	}
 	
+	/**
+	 * Turns the ghost counter clockWise 90 degrees
+	 */
 	public void turnLeft(){
 		if(orientation.equals("N")){
 			orientation = "W";

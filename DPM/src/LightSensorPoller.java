@@ -1,6 +1,10 @@
 import lejos.nxt.ColorSensor;
 
-
+/**Polls the color sensor at set intervals
+ * 
+ * @author DPM team 4
+ *
+ */
 public class LightSensorPoller extends Thread{
 	private ColorSensor sensor;
 	private int lightval;

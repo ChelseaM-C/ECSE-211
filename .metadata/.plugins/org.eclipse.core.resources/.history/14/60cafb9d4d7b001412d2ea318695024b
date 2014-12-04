@@ -1,0 +1,188 @@
+/**Simulates a robot travelling through the map
+ * 
+ * @author DMP TEAM 4
+ *
+ */
+public class Ghost {
+	private int x,y,startX,startY;
+	private boolean valid;
+	
+	private String orientation,startO;
+	
+	private Map map;
+	
+	public Ghost(int x, int y, String o, Map m){
+		this.x = x;
+		this.y = y;
+		this.orientation = o;
+		this.map = m;
+		this.valid = true;
+		startX = x;
+		startY = y;
+		startO = o;
+	}
+	/**
+	 * Makes ghost not valid
+	 */
+	public void invalid(){
+		valid = false;
+	}
+	/**
+	 * Return the validity of ghost
+	 * @return validity of ghost
+	 */
+	public boolean isValid(){
+		return valid;
+	}
+	/**
+	 * The number of tiles untill a wall is in fron (0 for no walls in range)
+	 * @return wall location in fron of robot
+	 */
+	public int wallinFront(){
+		if(orientation.equals("N")){
+			if(map.getSquare(x, y+1) == null){
+				return 1;
+			}
+			else if(map.getSquare(x,y+1).isWall()){
+				return 1;
+			}
+			else if(map.getSquare(x, y+2) == null){
+				return 2;
+			}
+			else if(map.getSquare(x,y+2).isWall()){
+				return 2;
+			}
+		}
+		if(orientation.equals("S")){
+			if(map.getSquare(x, y-1) == null){
+				return 1;
+			}
+			else if(map.getSquare(x,y-1).isWall()){
+				return 1;
+			}
+			else if(map.getSquare(x, y-2) == null){
+				return 2;
+			}
+			else if(map.getSquare(x,y-2).isWall()){
+				return 2;
+			}
+		}
+		if(orientation.equals("E")){
+			if(map.getSquare(x+1, y) == null){
+				return 1;
+			}
+			else if(map.getSquare(x+1,y).isWall()){
+				return 1;
+			}
+			else if(map.getSquare(x+2, y) == null){
+				return 2;
+			}
+			else if(map.getSquare(x+2,y).isWall()){
+				return 2;
+			}
+		}
+		if(orientation.equals("W")){
+			if(map.getSquare(x-1, y) == null){
+				return 1;
+			}
+			else if(map.getSquare(x-1,y).isWall()){
+				return 1;
+			}
+			if(map.getSquare(x-2, y) == null){
+				return 2;
+			}
+			else if(map.getSquare(x-2,y).isWall()){
+				return 2;
+			}
+		}
+		return 0;
+	}
+	/**
+	 * 
+	 * @return starting x
+	 */
+	public int getStartX(){
+		return startX;
+	}
+	/**
+	 * 
+	 * @return starting y
+	 */
+	public int getStartY(){
+		return startY;
+	}
+	/**
+	 * 
+	 * @return starting orientation
+	 */
+	public String getStartO(){
+		return startO;
+	}
+	/**
+	 * 
+	 * @return current x 
+	 */
+	
+	public int getX(){
+		return x;
+	}
+	/**
+	 * 
+	 * @return current y
+	 */
+	public int getY(){
+		return y;
+	}
+	/**
+	 * 
+	 * @return current orientation
+	 */
+	public String getOrientation(){
+		return orientation;
+	}
+	
+	public void move(){
+		if(orientation.equals("N")){
+			y++;
+		}
+		if(orientation.equals("S")){
+			y--;
+		}
+		if(orientation.equals("E")){
+			x++;
+		}
+		if(orientation.equals("W")){
+			x--;
+		}
+	}
+	
+	public void turn(){
+		if(orientation.equals("N")){
+			orientation = "E";
+		}
+		else if(orientation.equals("S")){
+			orientation = "W";
+		}
+		else if(orientation.equals("E")){
+			orientation = "S";
+		}
+		else if(orientation.equals("W")){
+			orientation = "N";
+		}
+	}
+	
+	public void turnLeft(){
+		if(orientation.equals("N")){
+			orientation = "W";
+		}
+		else if(orientation.equals("S")){
+			orientation = "E";
+		}
+		else if(orientation.equals("E")){
+			orientation = "N";
+		}
+		else if(orientation.equals("W")){
+			orientation = "S";
+		}
+	}
+}

@@ -7,7 +7,11 @@ import java.util.Stack;
 import lejos.nxt.SensorPort;
 import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
-     
+     /**
+      * Navigator for the robot
+      * @author DPM team 4
+      *
+      */
     public class Navigation extends Thread{
            
             private double x,y,theta;
@@ -31,7 +35,15 @@ import lejos.nxt.UltrasonicSensor;
             private CorrectionAngel angel;
      
            
-            //Constructor
+            /**
+             * Create a new Navigation
+             * @param x starting x
+             * @param y starting y
+             * @param odometer odometer
+             * @param driver wheel driver
+             * @param left FindLine left
+             * @param right FindLine right
+             */
             public Navigation(double x, double y, Odometer odometer, WheelDriver driver,FindLine left, FindLine right){
                     this.x = odometer.getX();
                     this.y = odometer.getY();
@@ -54,7 +66,10 @@ import lejos.nxt.UltrasonicSensor;
                    
                    
             }
-           
+           /**
+            * set the correctionAngel
+            * @param a the new correction
+            */
             public void setAngel(CorrectionAngel a){
             	angel = a;
             }
@@ -64,7 +79,7 @@ import lejos.nxt.UltrasonicSensor;
             //Gets the angle between robot and destination
     
             
-            public void correct(){
+            private void correct(){
             	if(odometer.getTheta() > Math.PI){
             		driver.setSpeed(20, -20);
             	}
@@ -88,15 +103,19 @@ import lejos.nxt.UltrasonicSensor;
            
             //Main Runnable
 
-            
+            /**
+             * If line is found, call this
+             */
             public void foundLine(){
             	line = true;
             	
             }
-            
+            /**
+             * Moves robot forward with correction on
+             */
             public void testTile(){
             	angel = null;
-            	angel = new CorrectionAngel(this.odometer,null,null,null,left,right, this);
+            	angel = new CorrectionAngel(this.odometer,left,right, this);
             	angel.start();
             	//angel.toggle();
             	odometer.setTheta(0);
@@ -117,7 +136,9 @@ import lejos.nxt.UltrasonicSensor;
             	line = false;
             	
             }
-            //turns the robot clockwise by 90 degrees
+            /**
+             * turns the robot clockwise by 90 degrees
+             */
             public void turnCW(){
             				Motor.A.setAcceleration(500);
             				Motor.B.setAcceleration(500);
@@ -127,7 +148,9 @@ import lejos.nxt.UltrasonicSensor;
                             Motor.A.rotate(convertAngle(leftRadius, width, 95.5), true);
                             Motor.B.rotate(-convertAngle(rightRadius, width, 95.5), false);
             }
-            // turns the robot counterclockwise by 90 degrees
+            /**
+             *  turns the robot counterclockwise by 90 degrees
+             */
             public void turnCCW() {
             				Motor.A.setAcceleration(500);
 							Motor.B.setAcceleration(500);
@@ -137,7 +160,9 @@ import lejos.nxt.UltrasonicSensor;
                             Motor.A.rotate(-convertAngle(leftRadius, width, 95.5), true);
                             Motor.B.rotate(convertAngle(rightRadius, width, 95.5), false);
             }
-     		//method to move the robot 1 tile forward (30.24 centimeters)
+     		/**
+     		 * method to move the robot 1 tile forward (30.24 centimeters)
+     		 */
             public void oneTileForward() {
 							Motor.A.setAcceleration(500);
 							Motor.B.setAcceleration(500);
@@ -158,6 +183,9 @@ import lejos.nxt.UltrasonicSensor;
                 Motor.A.rotate(-convertDistance(leftRadius, 30.24 +2), true);
                 Motor.B.rotate(-convertDistance(rightRadius, 30.24 +2), false);
 }
+            /**
+             * Turns 180 degrees
+             */
             public void turnAround(){
 				Motor.A.setAcceleration(500);
 				Motor.B.setAcceleration(500);

@@ -1,7 +1,11 @@
 import lejos.nxt.LCD;
 import lejos.nxt.Sound;
 import lejos.nxt.comm.RConsole;
-
+/**
+ * Corrects the heading of the Robot
+ * @author DMP TEAM 4
+ *
+ */
 public class CorrectionAngel extends Thread {
 	private Odometer odo;
 
@@ -28,9 +32,14 @@ public class CorrectionAngel extends Thread {
 	private WheelDriver driver;
 	private FindLine lineFinderRight;
 	private FindLine lineFinderLeft;
-
-	public CorrectionAngel(Odometer odo, LightSensorController left,
-			LightSensorController right, WheelDriver driver,
+/**
+ * 
+ * @param odo the odometer
+ * @param lineFinderLeft the left FindLine
+ * @param lineFinderRight the right FindLine
+ * @param nav the nagivation
+ */
+	public CorrectionAngel(Odometer odo,
 			FindLine lineFinderLeft, FindLine lineFinderRight, Navigation nav) {
 		this.odo = odo;
 		this.lineFinderLeft = lineFinderLeft;
@@ -41,7 +50,7 @@ public class CorrectionAngel extends Thread {
 		this.nav = nav;
 	}
 
-	public double calculate(boolean right) {
+	private double calculate(boolean right) {
 		double xDist = x - xLast;
 		double yDist = y - yLast;
 		double result;
@@ -58,12 +67,14 @@ public class CorrectionAngel extends Thread {
 		return result;
 
 	}
-
+	/**
+	 * turns the correction on/off
+	 */
 	public void toggle() {
 		locked = !locked;
 	}
 
-	synchronized public double getNewTheta(double theta) {
+	synchronized private double getNewTheta(double theta) {
 		double oldTheta = Math.toDegrees(odo.getTheta());
 		double newTheta = 0;
 
@@ -87,7 +98,9 @@ public class CorrectionAngel extends Thread {
 
 		return newTheta;
 	}
-
+	/**
+	 * runs the thread (invoke with .start();)
+	 */
 	public void run() {
 		double newTheta = 0;
 		long updateStart, updateEnd;

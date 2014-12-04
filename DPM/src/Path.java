@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 /**Path class contains a path of gridSquares and WayPoints to navigate the robot
  * 
- * @author Daniel
+ * @author DPM Team 4
  *
  */
 public class Path {

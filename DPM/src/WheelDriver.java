@@ -3,29 +3,35 @@ import lejos.nxt.NXTRegulatedMotor;
 
 /**Controls the motors for the wheels
  * 
- * @author Daniel
- * yyolo
- * richard is here
- * wei is here
- * Jessy is here
- * denis is here
+ * @author DPM Team 4
  */
 public class WheelDriver {
 	private NXTRegulatedMotor leftMotor,rightMotor;
 	private static final int FORWARD_SPEED = 300;
 	private static final int ROTATION_SPEED = 200;
 	private static final int ACCELERATION_SPEED = 3000;
-	
+	/**
+	 * Create a new wheeldriver
+	 * @param left left motor
+	 * @param right right motor
+	 */
 	public WheelDriver(NXTRegulatedMotor left, NXTRegulatedMotor right){
 		this.leftMotor = left;
 		this.rightMotor = right;
 	}
-	
+	/**
+	 * Sets acceleration of the motors
+	 * @param acc acceleration
+	 */
 	public void setAccel(int acc){
 		leftMotor.setAcceleration(acc);
 		rightMotor.setAcceleration(acc);
 	}
-	
+	/**
+	 * sets the speeds of the motors (negative is backwards motion)
+	 * @param left left speed
+	 * @param right right speed
+	 */
 	public void setSpeed(int left, int right){
 		if(left == 0){
 			leftMotor.stop();

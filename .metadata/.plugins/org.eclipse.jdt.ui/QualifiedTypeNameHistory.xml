@@ -2,6 +2,10 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="GridSquare"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="lejos.nxt.Sound"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="LCDDisplay"/>
+<fullyQualifiedTypeName name="lejos.nxt.LCD"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
+<fullyQualifiedTypeName name="lejos.robotics.Color"/>
+<fullyQualifiedTypeName name="lejos.nxt.Sound"/>
 </qualifiedTypeNameHistroy>
